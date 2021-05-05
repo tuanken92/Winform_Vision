@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\OpenCvSharp4.runtime.win.4.5.2.20210404\build\net\OpenCvSharp4.runtime.win.props" Condition="Exists('packages\OpenCvSharp4.runtime.win.4.5.2.20210404\build\net\OpenCvSharp4.runtime.win.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0FA39A9-ACCA-417A-B1CC-7FD765A45BD9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Winform_Vision</RootNamespace>
+    <AssemblyName>Winform_Vision</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Speed.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>packages\OpenCvSharp4.4.5.2.20210404\lib\net461\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>packages\OpenCvSharp4.4.5.2.20210404\lib\net461\OpenCvSharp.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.WpfExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\OpenCvSharp4.WpfExtensions.4.5.2.20210404\lib\net461\OpenCvSharp.WpfExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\clsResize.cs" />
+    <Compile Include="Form_MachineVision.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_MachineVision.Designer.cs">
+      <DependentUpon>Form_MachineVision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\MyDefine.cs" />
+    <Compile Include="Source\SerialPortManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\ShowDateTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\SocketClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\SocketClient_.cs" />
+    <Compile Include="Source\SocketServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\FrameCapture.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="Form_MachineVision.resx">
+      <DependentUpon>Form_MachineVision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pictures\1.ico" />
+    <Content Include="Pictures\2.ico" />
+    <Content Include="Pictures\3.ico" />
+    <Content Include="Pictures\4.ico" />
+    <Content Include="Pictures\add.png" />
+    <Content Include="Pictures\Auto.JPG" />
+    <Content Include="Pictures\back.png" />
+    <Content Include="Pictures\box.PNG" />
+    <Content Include="Pictures\capture.png" />
+    <Content Include="Pictures\circle1.png" />
+    <Content Include="Pictures\connect.png" />
+    <Content Include="Pictures\conveyor.png" />
+    <Content Include="Pictures\conveyor1.png" />
+    <Content Include="Pictures\Data.JPG" />
+    <Content Include="Pictures\dot1.ico" />
+    <Content Include="Pictures\down.png" />
+    <Content Include="Pictures\download.png" />
+    <Content Include="Pictures\down_pos.png" />
+    <Content Include="Pictures\DSTG.ico" />
+    <Content Include="Pictures\ERROR.bmp" />
+    <Content Include="Pictures\exit.jpg" />
+    <Content Include="Pictures\exit.png" />
+    <Content Include="Pictures\function.png" />
+    <Content Include="Pictures\go straight.png" />
+    <Content Include="Pictures\green_ville_1 documents_yellow_edit_yellow.jpg" />
+    <Content Include="Pictures\Help.JPG" />
+    <Content Include="Pictures\home_pos.png" />
+    <Content Include="Pictures\ico00004.ico" />
+    <Content Include="Pictures\insp.PNG" />
+    <Content Include="Pictures\JUST SOME PIXELS ICON_.jpg" />
+    <Content Include="Pictures\left.ico" />
+    <Content Include="Pictures\left.png" />
+    <Content Include="Pictures\Line.jpg" />
+    <Content Include="Pictures\Log.JPG" />
+    <Content Include="Pictures\Logo.png" />
+    <Content Include="Pictures\Log_Off.ico" />
+    <Content Include="Pictures\Log_Off.png" />
+    <Content Include="Pictures\Log_On.ico" />
+    <Content Include="Pictures\Log_On.png" />
+    <Content Include="Pictures\Manual.JPG" />
+    <Content Include="Pictures\MC.ico" />
+    <Content Include="Pictures\MMR.jpg" />
+    <Content Include="Pictures\new.png" />
+    <Content Include="Pictures\next.png" />
+    <Content Include="Pictures\next1.png" />
+    <Content Include="Pictures\OFF.png" />
+    <Content Include="Pictures\ON.png" />
+    <Content Include="Pictures\org.png" />
+    <Content Include="Pictures\org1.png" />
+    <Content Include="Pictures\org2.png" />
+    <Content Include="Pictures\org3.png" />
+    <Content Include="Pictures\PID.bmp" />
+    <Content Include="Pictures\refresh.png" />
+    <Content Include="Pictures\reset.png" />
+    <Content Include="Pictures\RFID.ico" />
+    <Content Include="Pictures\right.ico" />
+    <Content Include="Pictures\right.png" />
+    <Content Include="Pictures\RunMode.ico" />
+    <Content Include="Pictures\save.png" />
+    <Content Include="Pictures\set.png" />
+    <Content Include="Pictures\setting.png" />
+    <Content Include="Pictures\setting1.png" />
+    <Content Include="Pictures\Simple Remix Bitmap Image.bmp" />
+    <Content Include="Pictures\smooth_metal_png program-folder_yellow.jpg" />
+    <Content Include="Pictures\Speed.ico" />
+    <Content Include="Pictures\Speed.jpg" />
+    <Content Include="Pictures\SQL.jpg" />
+    <Content Include="Pictures\start.png" />
+    <Content Include="Pictures\step.jpg" />
+    <Content Include="Pictures\stop.png" />
+    <Content Include="Pictures\Teach.JPG" />
+    <Content Include="Pictures\turn.png" />
+    <Content Include="Pictures\up.png" />
+    <Content Include="Pictures\upload.png" />
+    <Content Include="Pictures\Upsv.png" />
+    <Content Include="Pictures\up_pos.png" />
+    <Content Include="Pictures\Vietnam.png" />
+    <Content Include="Speed.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\OpenCvSharp4.runtime.win.4.5.2.20210404\build\net\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenCvSharp4.runtime.win.4.5.2.20210404\build\net\OpenCvSharp4.runtime.win.props'))" />
+  </Target>
+</Project>
