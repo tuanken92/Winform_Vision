@@ -107,6 +107,7 @@ namespace Winform_Vision
             this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.label_DateTime = new System.Windows.Forms.Label();
             this.timer_Datetime = new System.Windows.Forms.Timer(this.components);
+            this.button_Test_Cam_Basler = new System.Windows.Forms.Button();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).BeginInit();
@@ -517,6 +518,7 @@ namespace Winform_Vision
             // 
             // tabPage_Camera
             // 
+            this.tabPage_Camera.Controls.Add(this.button_Test_Cam_Basler);
             this.tabPage_Camera.Controls.Add(this.listBox_Camera_Log);
             this.tabPage_Camera.Controls.Add(this.pictureBox_Frame_Camera);
             this.tabPage_Camera.Controls.Add(this.button_Camera_Connect);
@@ -533,9 +535,9 @@ namespace Winform_Vision
             // listBox_Camera_Log
             // 
             this.listBox_Camera_Log.FormattingEnabled = true;
-            this.listBox_Camera_Log.Location = new System.Drawing.Point(453, 65);
+            this.listBox_Camera_Log.Location = new System.Drawing.Point(453, 156);
             this.listBox_Camera_Log.Name = "listBox_Camera_Log";
-            this.listBox_Camera_Log.Size = new System.Drawing.Size(156, 277);
+            this.listBox_Camera_Log.Size = new System.Drawing.Size(156, 186);
             this.listBox_Camera_Log.TabIndex = 4;
             // 
             // pictureBox_Frame_Camera
@@ -879,6 +881,16 @@ namespace Winform_Vision
             // 
             this.timer_Datetime.Interval = 1000;
             // 
+            // button_Test_Cam_Basler
+            // 
+            this.button_Test_Cam_Basler.Location = new System.Drawing.Point(453, 65);
+            this.button_Test_Cam_Basler.Name = "button_Test_Cam_Basler";
+            this.button_Test_Cam_Basler.Size = new System.Drawing.Size(156, 25);
+            this.button_Test_Cam_Basler.TabIndex = 5;
+            this.button_Test_Cam_Basler.Text = "Basler";
+            this.button_Test_Cam_Basler.UseVisualStyleBackColor = true;
+            this.button_Test_Cam_Basler.Click += new System.EventHandler(this.button_Test_Cam_Basler_Click);
+            // 
             // Vision
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -996,6 +1008,7 @@ namespace Winform_Vision
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox_Setting_Comport;
         private System.Windows.Forms.ListBox listBox_Log_System;
+        private System.Windows.Forms.Button button_Test_Cam_Basler;
     }
 }
 

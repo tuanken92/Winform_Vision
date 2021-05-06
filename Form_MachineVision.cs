@@ -22,6 +22,7 @@ namespace Winform_Vision
         SocketServer socketServerManager;
         SocketClient socketClientManager;
         FrameCapture frameCaptureManager;
+        Basler_Camera basler_camera;
         public Vision()
         {
             InitializeComponent();
@@ -41,7 +42,6 @@ namespace Winform_Vision
                                                    button_Server_Send,
                                                    listBox_Server_Receive);
 
-
             socketClientManager = new SocketClient(textBox_Client_Port,
                                                    textBox_Client_Ip,
                                                    textBox_Client_Send,
@@ -53,6 +53,10 @@ namespace Winform_Vision
 
 
             frameCaptureManager = new FrameCapture(listBox_Camera_Log, pictureBox_Frame_Camera, textBox_Cam_URL, button_Camera_Connect);
+
+
+            basler_camera = new Basler_Camera();
+
 
 #if AUTO_RESIZE
             _form_resize = new clsResize(this); //I put this after the initialize event to be sure that all controls are initialized properly
@@ -66,8 +70,27 @@ namespace Winform_Vision
             Console.WriteLine("Vision destroy.....");
         }
 
+        static bool isPressBasler = false;
+        private void button_Test_Cam_Basler_Click(object sender, EventArgs e)
+        {
+            if(!isPressBasler)
+            {
+                Console.WriteLine("Press basler");
+                basler_camera.Enable_run = true;
+                basler_camera.Device_Removal_Handling();
+                isPressBasler = true;
+            }
+            else
+            {
+                Console.WriteLine("Stop basler");
+                basler_camera.Enable_run = false;
+                isPressBasler = false;
 
-        
+            }
+        }
+
+
+
 #if AUTO_RESIZE
         clsResize _form_resize;
         private void _Load(object sender, EventArgs e)
@@ -80,5 +103,5 @@ namespace Winform_Vision
             _form_resize._resize();
         }
 #endif
-}
+    }
 }
