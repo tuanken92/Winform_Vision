@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenCvSharp;
 
 namespace Winform_Vision.Source
 {
@@ -49,6 +50,9 @@ namespace Winform_Vision.Source
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
+
+
+
             // Grab and display images until timeout.
             while (enable_run && camera.StreamGrabber.IsGrabbing && stopWatch.ElapsedMilliseconds < cTimeOutMs)
             {
@@ -61,8 +65,28 @@ namespace Winform_Vision.Source
                         // Image grabbed successfully?
                         if (grabResult.GrabSucceeded)
                         {
+                            // Access the image data.
+                            Console.WriteLine("SizeX: {0} {1}", grabResult.Width, grabResult.PayloadSize);
+                            Console.WriteLine("SizeY: {0}", grabResult.Height);
+                            byte[] buffer = grabResult.PixelData as byte[];
+                            Console.WriteLine("Gray value of first pixel: {0}", buffer[0]);
+                            Console.WriteLine("");
+
+                           
+                            //Mat src = Cv2.ImDecode(buffer, ImreadModes.Grayscale);
+
+                            var src = new Mat(grabResult.Height, grabResult.Width, MatType.CV_8UC1);
+                            src.SetArray(buffer);
+
+                            if (!src.Empty())
+                            {
+                                Console.WriteLine("Mat SizeX: {0}", src.Size().Width);
+                                Console.WriteLine("Mat SizeY: {0}", src.Size().Height);
+                                Console.WriteLine("Mat Channels: {0}", src.Channels());
+                                src.Release();
+                            }
                             // Display the grabbed image.
-                            ImageWindow.DisplayImage(0, grabResult);
+                            // ImageWindow.DisplayImage(0, grabResult);
                         }
                     }
                 }
