@@ -107,6 +107,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\MyDefine.cs" />
+    <Compile Include="Source\MyEventArgs.cs" />
     <Compile Include="Source\SerialPortManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +121,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Source\FrameCapture.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\TCP_Client.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\TCP_Server.cs">
       <SubType>Form</SubType>
     </Compile>
     <EmbeddedResource Include="Form_MachineVision.resx">
@@ -240,6 +247,9 @@
     <Content Include="Pictures\up_pos.png" />
     <Content Include="Pictures\Vietnam.png" />
     <Content Include="Speed.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WinForm\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

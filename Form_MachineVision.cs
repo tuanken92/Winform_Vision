@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Winform_Vision.Source;
@@ -23,6 +24,12 @@ namespace Winform_Vision
         SocketClient socketClientManager;
         FrameCapture frameCaptureManager;
         Basler_Camera basler_camera;
+
+        TCP_Client tcp_client;
+
+
+        //variable data
+
         public Vision()
         {
             InitializeComponent();
@@ -33,7 +40,8 @@ namespace Winform_Vision
                                                       comboBox_ListComPort,
                                                       listBox_COM_Log,
                                                       listBox_COM_Receive,
-                                                      textBox_COM_Data2Send);
+                                                      textBox_COM_Data2Send,
+                                                      label_Comport_status);
 
             socketServerManager = new SocketServer(textBox_Server_Port,
                                                    textBox_Server_Ip,
@@ -42,14 +50,19 @@ namespace Winform_Vision
                                                    button_Server_Send,
                                                    listBox_Server_Receive);
 
-            socketClientManager = new SocketClient(textBox_Client_Port,
-                                                   textBox_Client_Ip,
+            /*socketClientManager = new SocketClient(textBox_Client_Ip,
+                                                   textBox_Client_Port,
+                                                   textBox_Client_Send,
+                                                   button_Client_Connect,
+                                                   button_Client_Send,
+                                                   listBox_Client_Receive);*/
+
+            tcp_client = new TCP_Client(textBox_Client_Ip,
+                                                   textBox_Client_Port,
                                                    textBox_Client_Send,
                                                    button_Client_Connect,
                                                    button_Client_Send,
                                                    listBox_Client_Receive);
-
-
 
 
             frameCaptureManager = new FrameCapture(listBox_Camera_Log, pictureBox_Frame_Camera, textBox_Cam_URL, button_Camera_Connect);
@@ -57,6 +70,11 @@ namespace Winform_Vision
 
             basler_camera = new Basler_Camera();
 
+
+            Thread print_com = new Thread(print_data_comport);
+            print_com.Name = "Print_data_comport";
+            print_com.IsBackground = true;
+            print_com.Start();
 
 #if AUTO_RESIZE
             _form_resize = new clsResize(this); //I put this after the initialize event to be sure that all controls are initialized properly
@@ -90,7 +108,59 @@ namespace Winform_Vision
         }
 
 
+        void print_data_comport()
+        {
+            while(true)
+            {
+                Thread.Sleep(1000);
+                
+                if(serialPortManager != null && serialPortManager.DataReceived != null)
+                {
+                    Console.WriteLine($"data comport = {serialPortManager.DataReceived.ToString()}");
+                    serialPortManager.DataReceived = null;
+                }
+                
+            }
+        }
 
+        private void tabControl_Main_Click(object sender, EventArgs e)
+        {
+            switch (tabControl_Main.SelectedIndex)
+            {
+                case (int)TabControlIndex.TabControl.Tab_Auto:
+                    Console.WriteLine("Tab Auto");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Manual:
+                    Console.WriteLine("Tab Manul");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_COM:
+                    Console.WriteLine("Tab COM");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Socket:
+                    Console.WriteLine("Tab Socket");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Camera:
+                    Console.WriteLine("Tab Camera");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Setting:
+                    Console.WriteLine("Tab Setting");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Log:
+                    Console.WriteLine("Tab Log");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_Help:
+                    Console.WriteLine("Tab Help");
+                    break;
+                case (int)TabControlIndex.TabControl.Tab_About:
+                    Console.WriteLine("Tab About");
+                    break;
+            }
+        }
+
+        private void Vision_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Console.WriteLine("Vision_FormClosing ....");
+        }
 #if AUTO_RESIZE
         clsResize _form_resize;
         private void _Load(object sender, EventArgs e)

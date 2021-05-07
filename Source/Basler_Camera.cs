@@ -178,5 +178,46 @@ namespace Winform_Vision.Source
             }
 
         }
+
+
+
+        /// <summary>
+        /// Open camera via cam_id
+        /// </summary>
+        /// <param name="cam_id"></param>
+        void OpenCamera(string cam_id)
+        {
+
+        }
+
+        void CloseCamera()
+        {
+
+        }
+
+        void LiveCamera()
+        {
+
+        }
+
+        void SetAOI(UInt16 x, UInt16 y, UInt16 w, UInt16 h)
+        {
+
+        }
+
+        void SaveParameter()
+        {
+
+        }
+
+        void LoadParameter()
+        {
+
+        }
+
+        FrameData GrapImage()
+        {
+            return new FrameData();
+        }
     }
 }

@@ -39,7 +39,6 @@ namespace Winform_Vision
             this.button_Reset = new System.Windows.Forms.Button();
             this.button_Stop = new System.Windows.Forms.Button();
             this.button_Start = new System.Windows.Forms.Button();
-            this.pictureBox_Display = new System.Windows.Forms.PictureBox();
             this.tabPage_Manual = new System.Windows.Forms.TabPage();
             this.tabPage_SerialPort = new System.Windows.Forms.TabPage();
             this.listBox_COM_Log = new System.Windows.Forms.ListBox();
@@ -69,8 +68,8 @@ namespace Winform_Vision
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage_Camera = new System.Windows.Forms.TabPage();
+            this.button_Test_Cam_Basler = new System.Windows.Forms.Button();
             this.listBox_Camera_Log = new System.Windows.Forms.ListBox();
-            this.pictureBox_Frame_Camera = new System.Windows.Forms.PictureBox();
             this.button_Camera_Connect = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox_Cam_URL = new System.Windows.Forms.TextBox();
@@ -104,19 +103,22 @@ namespace Winform_Vision
             this.tabPage_Log = new System.Windows.Forms.TabPage();
             this.listBox_Log_System = new System.Windows.Forms.ListBox();
             this.label_Title = new System.Windows.Forms.Label();
-            this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.label_DateTime = new System.Windows.Forms.Label();
             this.timer_Datetime = new System.Windows.Forms.Timer(this.components);
-            this.button_Test_Cam_Basler = new System.Windows.Forms.Button();
+            this.label_Comport_status = new System.Windows.Forms.Label();
+            this.tabPage_Help = new System.Windows.Forms.TabPage();
+            this.tabPage_About = new System.Windows.Forms.TabPage();
+            this.listBox_ListClient = new System.Windows.Forms.ListBox();
+            this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Display = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Frame_Camera = new System.Windows.Forms.PictureBox();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).BeginInit();
             this.tabPage_SerialPort.SuspendLayout();
             this.tabPage_Socket.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox_Socket_Server.SuspendLayout();
             this.tabPage_Camera.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).BeginInit();
             this.tabPage_Setting.SuspendLayout();
             this.groupBox_Setting_Camera.SuspendLayout();
             this.groupBox_Setting_Client.SuspendLayout();
@@ -124,6 +126,8 @@ namespace Winform_Vision
             this.groupBox_Setting_COM.SuspendLayout();
             this.tabPage_Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -139,9 +143,11 @@ namespace Winform_Vision
             this.tabControl_Main.Controls.Add(this.tabPage_Camera);
             this.tabControl_Main.Controls.Add(this.tabPage_Setting);
             this.tabControl_Main.Controls.Add(this.tabPage_Log);
+            this.tabControl_Main.Controls.Add(this.tabPage_Help);
+            this.tabControl_Main.Controls.Add(this.tabPage_About);
             this.tabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl_Main.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl_Main.ItemSize = new System.Drawing.Size(80, 50);
+            this.tabControl_Main.ItemSize = new System.Drawing.Size(65, 50);
             this.tabControl_Main.Location = new System.Drawing.Point(-1, 35);
             this.tabControl_Main.Multiline = true;
             this.tabControl_Main.Name = "tabControl_Main";
@@ -150,6 +156,7 @@ namespace Winform_Vision
             this.tabControl_Main.Size = new System.Drawing.Size(623, 406);
             this.tabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl_Main.TabIndex = 0;
+            this.tabControl_Main.Click += new System.EventHandler(this.tabControl_Main_Click);
             // 
             // tabPage_Auto
             // 
@@ -238,16 +245,6 @@ namespace Winform_Vision
             this.button_Start.Text = "START";
             this.button_Start.UseVisualStyleBackColor = true;
             // 
-            // pictureBox_Display
-            // 
-            this.pictureBox_Display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_Display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Display.Location = new System.Drawing.Point(6, 6);
-            this.pictureBox_Display.Name = "pictureBox_Display";
-            this.pictureBox_Display.Size = new System.Drawing.Size(467, 336);
-            this.pictureBox_Display.TabIndex = 0;
-            this.pictureBox_Display.TabStop = false;
-            // 
             // tabPage_Manual
             // 
             this.tabPage_Manual.Location = new System.Drawing.Point(4, 4);
@@ -260,6 +257,7 @@ namespace Winform_Vision
             // 
             // tabPage_SerialPort
             // 
+            this.tabPage_SerialPort.Controls.Add(this.label_Comport_status);
             this.tabPage_SerialPort.Controls.Add(this.listBox_COM_Log);
             this.tabPage_SerialPort.Controls.Add(this.listBox_COM_Receive);
             this.tabPage_SerialPort.Controls.Add(this.button_COM_Send);
@@ -280,7 +278,7 @@ namespace Winform_Vision
             this.listBox_COM_Log.FormattingEnabled = true;
             this.listBox_COM_Log.Location = new System.Drawing.Point(293, 8);
             this.listBox_COM_Log.Name = "listBox_COM_Log";
-            this.listBox_COM_Log.Size = new System.Drawing.Size(316, 329);
+            this.listBox_COM_Log.Size = new System.Drawing.Size(316, 290);
             this.listBox_COM_Log.TabIndex = 6;
             // 
             // listBox_COM_Receive
@@ -369,7 +367,7 @@ namespace Winform_Vision
             this.textBox_Client_Port.Name = "textBox_Client_Port";
             this.textBox_Client_Port.Size = new System.Drawing.Size(143, 20);
             this.textBox_Client_Port.TabIndex = 7;
-            this.textBox_Client_Port.Text = "9999";
+            this.textBox_Client_Port.Text = "8888";
             // 
             // textBox_Client_Ip
             // 
@@ -377,7 +375,7 @@ namespace Winform_Vision
             this.textBox_Client_Ip.Name = "textBox_Client_Ip";
             this.textBox_Client_Ip.Size = new System.Drawing.Size(143, 20);
             this.textBox_Client_Ip.TabIndex = 6;
-            this.textBox_Client_Ip.Text = "192.168.1.13";
+            this.textBox_Client_Ip.Text = "127.0.0.1";
             // 
             // button_Client_Send
             // 
@@ -433,6 +431,7 @@ namespace Winform_Vision
             // 
             // groupBox_Socket_Server
             // 
+            this.groupBox_Socket_Server.Controls.Add(this.listBox_ListClient);
             this.groupBox_Socket_Server.Controls.Add(this.textBox_Server_Port);
             this.groupBox_Socket_Server.Controls.Add(this.textBox_Server_Ip);
             this.groupBox_Socket_Server.Controls.Add(this.button_Server_Send);
@@ -454,7 +453,7 @@ namespace Winform_Vision
             this.textBox_Server_Port.Name = "textBox_Server_Port";
             this.textBox_Server_Port.Size = new System.Drawing.Size(143, 20);
             this.textBox_Server_Port.TabIndex = 7;
-            this.textBox_Server_Port.Text = "9999";
+            this.textBox_Server_Port.Text = "8888";
             // 
             // textBox_Server_Ip
             // 
@@ -484,18 +483,18 @@ namespace Winform_Vision
             // 
             // textBox_Server_Send
             // 
-            this.textBox_Server_Send.Location = new System.Drawing.Point(9, 199);
+            this.textBox_Server_Send.Location = new System.Drawing.Point(9, 270);
             this.textBox_Server_Send.Multiline = true;
             this.textBox_Server_Send.Name = "textBox_Server_Send";
-            this.textBox_Server_Send.Size = new System.Drawing.Size(278, 95);
+            this.textBox_Server_Send.Size = new System.Drawing.Size(278, 24);
             this.textBox_Server_Send.TabIndex = 3;
             // 
             // listBox_Server_Receive
             // 
             this.listBox_Server_Receive.FormattingEnabled = true;
-            this.listBox_Server_Receive.Location = new System.Drawing.Point(9, 94);
+            this.listBox_Server_Receive.Location = new System.Drawing.Point(97, 94);
             this.listBox_Server_Receive.Name = "listBox_Server_Receive";
-            this.listBox_Server_Receive.Size = new System.Drawing.Size(278, 95);
+            this.listBox_Server_Receive.Size = new System.Drawing.Size(190, 173);
             this.listBox_Server_Receive.TabIndex = 2;
             // 
             // label3
@@ -520,10 +519,10 @@ namespace Winform_Vision
             // 
             this.tabPage_Camera.Controls.Add(this.button_Test_Cam_Basler);
             this.tabPage_Camera.Controls.Add(this.listBox_Camera_Log);
-            this.tabPage_Camera.Controls.Add(this.pictureBox_Frame_Camera);
             this.tabPage_Camera.Controls.Add(this.button_Camera_Connect);
             this.tabPage_Camera.Controls.Add(this.label6);
             this.tabPage_Camera.Controls.Add(this.textBox_Cam_URL);
+            this.tabPage_Camera.Controls.Add(this.pictureBox_Frame_Camera);
             this.tabPage_Camera.Location = new System.Drawing.Point(4, 4);
             this.tabPage_Camera.Name = "tabPage_Camera";
             this.tabPage_Camera.Padding = new System.Windows.Forms.Padding(3);
@@ -532,6 +531,16 @@ namespace Winform_Vision
             this.tabPage_Camera.Text = "Camera";
             this.tabPage_Camera.UseVisualStyleBackColor = true;
             // 
+            // button_Test_Cam_Basler
+            // 
+            this.button_Test_Cam_Basler.Location = new System.Drawing.Point(453, 65);
+            this.button_Test_Cam_Basler.Name = "button_Test_Cam_Basler";
+            this.button_Test_Cam_Basler.Size = new System.Drawing.Size(156, 25);
+            this.button_Test_Cam_Basler.TabIndex = 5;
+            this.button_Test_Cam_Basler.Text = "Basler";
+            this.button_Test_Cam_Basler.UseVisualStyleBackColor = true;
+            this.button_Test_Cam_Basler.Click += new System.EventHandler(this.button_Test_Cam_Basler_Click);
+            // 
             // listBox_Camera_Log
             // 
             this.listBox_Camera_Log.FormattingEnabled = true;
@@ -539,16 +548,6 @@ namespace Winform_Vision
             this.listBox_Camera_Log.Name = "listBox_Camera_Log";
             this.listBox_Camera_Log.Size = new System.Drawing.Size(156, 186);
             this.listBox_Camera_Log.TabIndex = 4;
-            // 
-            // pictureBox_Frame_Camera
-            // 
-            this.pictureBox_Frame_Camera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Frame_Camera.Location = new System.Drawing.Point(9, 6);
-            this.pictureBox_Frame_Camera.Name = "pictureBox_Frame_Camera";
-            this.pictureBox_Frame_Camera.Size = new System.Drawing.Size(438, 336);
-            this.pictureBox_Frame_Camera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Frame_Camera.TabIndex = 3;
-            this.pictureBox_Frame_Camera.TabStop = false;
             // 
             // button_Camera_Connect
             // 
@@ -854,17 +853,6 @@ namespace Winform_Vision
             this.label_Title.Text = "Machine Vision Toolbox";
             this.label_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox_Logo
-            // 
-            this.pictureBox_Logo.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.pictureBox_Logo.Image = global::Winform_Vision.Properties.Resources.Vietnam;
-            this.pictureBox_Logo.Location = new System.Drawing.Point(3, 1);
-            this.pictureBox_Logo.Name = "pictureBox_Logo";
-            this.pictureBox_Logo.Size = new System.Drawing.Size(40, 32);
-            this.pictureBox_Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Logo.TabIndex = 2;
-            this.pictureBox_Logo.TabStop = false;
-            // 
             // label_DateTime
             // 
             this.label_DateTime.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -881,15 +869,73 @@ namespace Winform_Vision
             // 
             this.timer_Datetime.Interval = 1000;
             // 
-            // button_Test_Cam_Basler
+            // label_Comport_status
             // 
-            this.button_Test_Cam_Basler.Location = new System.Drawing.Point(453, 65);
-            this.button_Test_Cam_Basler.Name = "button_Test_Cam_Basler";
-            this.button_Test_Cam_Basler.Size = new System.Drawing.Size(156, 25);
-            this.button_Test_Cam_Basler.TabIndex = 5;
-            this.button_Test_Cam_Basler.Text = "Basler";
-            this.button_Test_Cam_Basler.UseVisualStyleBackColor = true;
-            this.button_Test_Cam_Basler.Click += new System.EventHandler(this.button_Test_Cam_Basler_Click);
+            this.label_Comport_status.Location = new System.Drawing.Point(293, 309);
+            this.label_Comport_status.Name = "label_Comport_status";
+            this.label_Comport_status.Size = new System.Drawing.Size(316, 28);
+            this.label_Comport_status.TabIndex = 7;
+            this.label_Comport_status.Text = "Comport_status";
+            this.label_Comport_status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabPage_Help
+            // 
+            this.tabPage_Help.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_Help.Name = "tabPage_Help";
+            this.tabPage_Help.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Help.Size = new System.Drawing.Size(615, 348);
+            this.tabPage_Help.TabIndex = 7;
+            this.tabPage_Help.Text = "Help";
+            this.tabPage_Help.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_About
+            // 
+            this.tabPage_About.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_About.Name = "tabPage_About";
+            this.tabPage_About.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_About.Size = new System.Drawing.Size(615, 348);
+            this.tabPage_About.TabIndex = 8;
+            this.tabPage_About.Text = "About";
+            this.tabPage_About.UseVisualStyleBackColor = true;
+            // 
+            // listBox_ListClient
+            // 
+            this.listBox_ListClient.FormattingEnabled = true;
+            this.listBox_ListClient.Location = new System.Drawing.Point(9, 94);
+            this.listBox_ListClient.Name = "listBox_ListClient";
+            this.listBox_ListClient.Size = new System.Drawing.Size(82, 173);
+            this.listBox_ListClient.TabIndex = 8;
+            // 
+            // pictureBox_Logo
+            // 
+            this.pictureBox_Logo.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.pictureBox_Logo.Image = global::Winform_Vision.Properties.Resources.Vietnam;
+            this.pictureBox_Logo.Location = new System.Drawing.Point(3, 1);
+            this.pictureBox_Logo.Name = "pictureBox_Logo";
+            this.pictureBox_Logo.Size = new System.Drawing.Size(40, 32);
+            this.pictureBox_Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Logo.TabIndex = 2;
+            this.pictureBox_Logo.TabStop = false;
+            // 
+            // pictureBox_Display
+            // 
+            this.pictureBox_Display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_Display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Display.Location = new System.Drawing.Point(6, 6);
+            this.pictureBox_Display.Name = "pictureBox_Display";
+            this.pictureBox_Display.Size = new System.Drawing.Size(467, 336);
+            this.pictureBox_Display.TabIndex = 0;
+            this.pictureBox_Display.TabStop = false;
+            // 
+            // pictureBox_Frame_Camera
+            // 
+            this.pictureBox_Frame_Camera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Frame_Camera.Location = new System.Drawing.Point(9, 6);
+            this.pictureBox_Frame_Camera.Name = "pictureBox_Frame_Camera";
+            this.pictureBox_Frame_Camera.Size = new System.Drawing.Size(438, 336);
+            this.pictureBox_Frame_Camera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Frame_Camera.TabIndex = 3;
+            this.pictureBox_Frame_Camera.TabStop = false;
             // 
             // Vision
             // 
@@ -902,9 +948,9 @@ namespace Winform_Vision
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Vision";
             this.Text = "Machine Vision";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Vision_FormClosing);
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_Auto.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).EndInit();
             this.tabPage_SerialPort.ResumeLayout(false);
             this.tabPage_SerialPort.PerformLayout();
             this.tabPage_Socket.ResumeLayout(false);
@@ -914,7 +960,6 @@ namespace Winform_Vision
             this.groupBox_Socket_Server.PerformLayout();
             this.tabPage_Camera.ResumeLayout(false);
             this.tabPage_Camera.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).EndInit();
             this.tabPage_Setting.ResumeLayout(false);
             this.groupBox_Setting_Camera.ResumeLayout(false);
             this.groupBox_Setting_Camera.PerformLayout();
@@ -926,6 +971,8 @@ namespace Winform_Vision
             this.groupBox_Setting_COM.PerformLayout();
             this.tabPage_Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1009,6 +1056,10 @@ namespace Winform_Vision
         private System.Windows.Forms.TextBox textBox_Setting_Comport;
         private System.Windows.Forms.ListBox listBox_Log_System;
         private System.Windows.Forms.Button button_Test_Cam_Basler;
+        private System.Windows.Forms.Label label_Comport_status;
+        private System.Windows.Forms.TabPage tabPage_Help;
+        private System.Windows.Forms.TabPage tabPage_About;
+        private System.Windows.Forms.ListBox listBox_ListClient;
     }
 }
 

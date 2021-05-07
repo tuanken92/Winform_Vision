@@ -19,7 +19,7 @@ namespace Winform_Vision.Source
         private UInt16 port = MyDefine.port;
         private Socket socket_client = null;
         public string data_receive = null;
-
+        
         TextBox tbIP = null;
         TextBox tbPort = null;
         TextBox tbData2Send = null;
@@ -43,10 +43,11 @@ namespace Winform_Vision.Source
             this.btnConnectDisconnect.Click += BtnConnectDisconnect_Click;
 
 
-            var ip_scan = GetLocalIPv4(NetworkInterfaceType.Wireless80211);
-            //GetLocalIPv4(NetworkInterfaceType.Ethernet);
-            
+            //var ip_scan = GetLocalIPv4(NetworkInterfaceType.Wireless80211);
+            var ip_scan = GetLocalIPv4(NetworkInterfaceType.Ethernet);
+
             //bool b = UInt16.TryParse(this.tbPort.Text, out port);
+            port = UInt16.Parse(this.tbPort.Text);
             ip = new IPEndPoint(IPAddress.Parse(ip_scan), port);
 
             Console.WriteLine($"SocketClient: port = {port}, ip = {ip}");
@@ -72,6 +73,7 @@ namespace Winform_Vision.Source
 
         public void Connect()
         {
+            Console.WriteLine($"SocketClient: port = {port}, ip = {ip}");
             socket_client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             try
             {
@@ -107,10 +109,11 @@ namespace Winform_Vision.Source
             {
                 while (true)
                 {
-                    byte[] data = new byte[1024*5];
+                    byte[] data = new byte[1024];
                     socket_client.Receive(data);
 
                     string data_receive = Deserialize(data).ToString();
+                    //string data_receive = Encoding.UTF8.GetString(data);
                     Console.WriteLine("Recieve = {0}", data_receive);
                 }
             }
