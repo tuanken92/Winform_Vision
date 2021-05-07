@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Winform_Vision.Source;
+
 
 
 
@@ -29,6 +33,44 @@ namespace Winform_Vision
 
 
         //variable data
+        All_Parameter param;
+
+
+        void test_save_json()
+        {
+            //init list
+            param.list_cam = new List<CameraPrameter>();
+            param.list_comport = new List<ComportParameter>();
+            param.list_socket_client = new List<SocketParameter>();
+
+            for (int i = 1; i < 5; i++)
+            {
+                CameraPrameter cam_param = new CameraPrameter(i);
+                ComportParameter com_param = new ComportParameter(i);
+                SocketParameter socket_param = new SocketParameter(i);
+
+                param.list_cam.Add(cam_param);
+                param.list_comport.Add(com_param);
+                param.list_socket_client.Add(socket_param);
+            }
+
+            //to json
+            JsonSerializer serializer = new JsonSerializer();
+
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(@"E:\json.txt"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, param);
+            }
+        }
+
+
+        void test_load_json()
+        {
+        }
 
         public Vision()
         {
@@ -70,11 +112,12 @@ namespace Winform_Vision
 
             basler_camera = new Basler_Camera();
 
-
-            Thread print_com = new Thread(print_data_comport);
+            //test_save_json();
+            test_load_json();
+            /*Thread print_com = new Thread(print_data_comport);
             print_com.Name = "Print_data_comport";
             print_com.IsBackground = true;
-            print_com.Start();
+            print_com.Start();*/
 
 #if AUTO_RESIZE
             _form_resize = new clsResize(this); //I put this after the initialize event to be sure that all controls are initialized properly
