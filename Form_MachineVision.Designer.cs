@@ -39,8 +39,10 @@ namespace Winform_Vision
             this.button_Reset = new System.Windows.Forms.Button();
             this.button_Stop = new System.Windows.Forms.Button();
             this.button_Start = new System.Windows.Forms.Button();
+            this.pictureBox_Display = new System.Windows.Forms.PictureBox();
             this.tabPage_Manual = new System.Windows.Forms.TabPage();
             this.tabPage_SerialPort = new System.Windows.Forms.TabPage();
+            this.label_Comport_status = new System.Windows.Forms.Label();
             this.listBox_COM_Log = new System.Windows.Forms.ListBox();
             this.listBox_COM_Receive = new System.Windows.Forms.ListBox();
             this.button_COM_Send = new System.Windows.Forms.Button();
@@ -59,6 +61,7 @@ namespace Winform_Vision
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox_Socket_Server = new System.Windows.Forms.GroupBox();
+            this.listBox_ListClient = new System.Windows.Forms.ListBox();
             this.textBox_Server_Port = new System.Windows.Forms.TextBox();
             this.textBox_Server_Ip = new System.Windows.Forms.TextBox();
             this.button_Server_Send = new System.Windows.Forms.Button();
@@ -73,14 +76,15 @@ namespace Winform_Vision
             this.button_Camera_Connect = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox_Cam_URL = new System.Windows.Forms.TextBox();
+            this.pictureBox_Frame_Camera = new System.Windows.Forms.PictureBox();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
+            this.button_SaveParam = new System.Windows.Forms.Button();
             this.groupBox_Setting_Camera = new System.Windows.Forms.GroupBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.textBox_Setting_Camera_Flip = new System.Windows.Forms.TextBox();
+            this.comboBox_Setting_Camera_Type = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox_Setting_Camera_Height = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.textBox_Setting_Camera_Width = new System.Windows.Forms.TextBox();
+            this.textBox_Setting_Camera_ROI = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox_Setting_Camera_Fps = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -102,23 +106,27 @@ namespace Winform_Vision
             this.textBox_Setting_Comport = new System.Windows.Forms.TextBox();
             this.tabPage_Log = new System.Windows.Forms.TabPage();
             this.listBox_Log_System = new System.Windows.Forms.ListBox();
+            this.tabPage_Help = new System.Windows.Forms.TabPage();
+            this.tabPage_About = new System.Windows.Forms.TabPage();
             this.label_Title = new System.Windows.Forms.Label();
             this.label_DateTime = new System.Windows.Forms.Label();
             this.timer_Datetime = new System.Windows.Forms.Timer(this.components);
-            this.label_Comport_status = new System.Windows.Forms.Label();
-            this.tabPage_Help = new System.Windows.Forms.TabPage();
-            this.tabPage_About = new System.Windows.Forms.TabPage();
-            this.listBox_ListClient = new System.Windows.Forms.ListBox();
             this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Display = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Frame_Camera = new System.Windows.Forms.PictureBox();
+            this.comboBox_Setting_Camera_Format = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboBox_Setting_Camera_Flip = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).BeginInit();
             this.tabPage_SerialPort.SuspendLayout();
             this.tabPage_Socket.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox_Socket_Server.SuspendLayout();
             this.tabPage_Camera.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).BeginInit();
             this.tabPage_Setting.SuspendLayout();
             this.groupBox_Setting_Camera.SuspendLayout();
             this.groupBox_Setting_Client.SuspendLayout();
@@ -126,8 +134,6 @@ namespace Winform_Vision
             this.groupBox_Setting_COM.SuspendLayout();
             this.tabPage_Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -245,6 +251,16 @@ namespace Winform_Vision
             this.button_Start.Text = "START";
             this.button_Start.UseVisualStyleBackColor = true;
             // 
+            // pictureBox_Display
+            // 
+            this.pictureBox_Display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_Display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Display.Location = new System.Drawing.Point(6, 6);
+            this.pictureBox_Display.Name = "pictureBox_Display";
+            this.pictureBox_Display.Size = new System.Drawing.Size(467, 336);
+            this.pictureBox_Display.TabIndex = 0;
+            this.pictureBox_Display.TabStop = false;
+            // 
             // tabPage_Manual
             // 
             this.tabPage_Manual.Location = new System.Drawing.Point(4, 4);
@@ -272,6 +288,15 @@ namespace Winform_Vision
             this.tabPage_SerialPort.TabIndex = 2;
             this.tabPage_SerialPort.Text = "COM";
             this.tabPage_SerialPort.UseVisualStyleBackColor = true;
+            // 
+            // label_Comport_status
+            // 
+            this.label_Comport_status.Location = new System.Drawing.Point(293, 309);
+            this.label_Comport_status.Name = "label_Comport_status";
+            this.label_Comport_status.Size = new System.Drawing.Size(316, 28);
+            this.label_Comport_status.TabIndex = 7;
+            this.label_Comport_status.Text = "Comport_status";
+            this.label_Comport_status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // listBox_COM_Log
             // 
@@ -447,6 +472,14 @@ namespace Winform_Vision
             this.groupBox_Socket_Server.TabStop = false;
             this.groupBox_Socket_Server.Text = "Server";
             // 
+            // listBox_ListClient
+            // 
+            this.listBox_ListClient.FormattingEnabled = true;
+            this.listBox_ListClient.Location = new System.Drawing.Point(9, 94);
+            this.listBox_ListClient.Name = "listBox_ListClient";
+            this.listBox_ListClient.Size = new System.Drawing.Size(82, 173);
+            this.listBox_ListClient.TabIndex = 8;
+            // 
             // textBox_Server_Port
             // 
             this.textBox_Server_Port.Location = new System.Drawing.Point(42, 47);
@@ -574,8 +607,19 @@ namespace Winform_Vision
             this.textBox_Cam_URL.Size = new System.Drawing.Size(107, 20);
             this.textBox_Cam_URL.TabIndex = 0;
             // 
+            // pictureBox_Frame_Camera
+            // 
+            this.pictureBox_Frame_Camera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Frame_Camera.Location = new System.Drawing.Point(9, 6);
+            this.pictureBox_Frame_Camera.Name = "pictureBox_Frame_Camera";
+            this.pictureBox_Frame_Camera.Size = new System.Drawing.Size(438, 336);
+            this.pictureBox_Frame_Camera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Frame_Camera.TabIndex = 3;
+            this.pictureBox_Frame_Camera.TabStop = false;
+            // 
             // tabPage_Setting
             // 
+            this.tabPage_Setting.Controls.Add(this.button_SaveParam);
             this.tabPage_Setting.Controls.Add(this.groupBox_Setting_Camera);
             this.tabPage_Setting.Controls.Add(this.groupBox_Setting_Client);
             this.tabPage_Setting.Controls.Add(this.groupBox_Setting_Server);
@@ -588,77 +632,85 @@ namespace Winform_Vision
             this.tabPage_Setting.Text = "Setting";
             this.tabPage_Setting.UseVisualStyleBackColor = true;
             // 
+            // button_SaveParam
+            // 
+            this.button_SaveParam.Location = new System.Drawing.Point(534, 319);
+            this.button_SaveParam.Name = "button_SaveParam";
+            this.button_SaveParam.Size = new System.Drawing.Size(75, 23);
+            this.button_SaveParam.TabIndex = 7;
+            this.button_SaveParam.Text = "SAVE";
+            this.button_SaveParam.UseVisualStyleBackColor = true;
+            // 
             // groupBox_Setting_Camera
             // 
-            this.groupBox_Setting_Camera.Controls.Add(this.label17);
-            this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_Flip);
+            this.groupBox_Setting_Camera.Controls.Add(this.button1);
+            this.groupBox_Setting_Camera.Controls.Add(this.checkBox1);
+            this.groupBox_Setting_Camera.Controls.Add(this.comboBox_Setting_Camera_Flip);
+            this.groupBox_Setting_Camera.Controls.Add(this.label19);
+            this.groupBox_Setting_Camera.Controls.Add(this.comboBox_Setting_Camera_Format);
+            this.groupBox_Setting_Camera.Controls.Add(this.label18);
+            this.groupBox_Setting_Camera.Controls.Add(this.comboBox_Setting_Camera_Type);
             this.groupBox_Setting_Camera.Controls.Add(this.label16);
-            this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_Height);
+            this.groupBox_Setting_Camera.Controls.Add(this.label17);
             this.groupBox_Setting_Camera.Controls.Add(this.label15);
-            this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_Width);
+            this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_ROI);
             this.groupBox_Setting_Camera.Controls.Add(this.label13);
             this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_Fps);
             this.groupBox_Setting_Camera.Controls.Add(this.label14);
             this.groupBox_Setting_Camera.Controls.Add(this.textBox_Setting_Camera_URL);
             this.groupBox_Setting_Camera.Location = new System.Drawing.Point(215, 6);
             this.groupBox_Setting_Camera.Name = "groupBox_Setting_Camera";
-            this.groupBox_Setting_Camera.Size = new System.Drawing.Size(200, 162);
+            this.groupBox_Setting_Camera.Size = new System.Drawing.Size(200, 246);
             this.groupBox_Setting_Camera.TabIndex = 6;
             this.groupBox_Setting_Camera.TabStop = false;
             this.groupBox_Setting_Camera.Text = "Camera";
             // 
-            // label17
+            // comboBox_Setting_Camera_Type
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(9, 140);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(23, 13);
-            this.label17.TabIndex = 9;
-            this.label17.Text = "Flip";
-            // 
-            // textBox_Setting_Camera_Flip
-            // 
-            this.textBox_Setting_Camera_Flip.Location = new System.Drawing.Point(91, 135);
-            this.textBox_Setting_Camera_Flip.Name = "textBox_Setting_Camera_Flip";
-            this.textBox_Setting_Camera_Flip.Size = new System.Drawing.Size(100, 20);
-            this.textBox_Setting_Camera_Flip.TabIndex = 8;
+            this.comboBox_Setting_Camera_Type.FormattingEnabled = true;
+            this.comboBox_Setting_Camera_Type.Location = new System.Drawing.Point(91, 46);
+            this.comboBox_Setting_Camera_Type.Name = "comboBox_Setting_Camera_Type";
+            this.comboBox_Setting_Camera_Type.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_Setting_Camera_Type.TabIndex = 11;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(9, 111);
+            this.label16.Location = new System.Drawing.Point(9, 50);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(38, 13);
-            this.label16.TabIndex = 7;
-            this.label16.Text = "Height";
+            this.label16.Size = new System.Drawing.Size(31, 13);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "Type";
             // 
-            // textBox_Setting_Camera_Height
+            // label17
             // 
-            this.textBox_Setting_Camera_Height.Location = new System.Drawing.Point(91, 106);
-            this.textBox_Setting_Camera_Height.Name = "textBox_Setting_Camera_Height";
-            this.textBox_Setting_Camera_Height.Size = new System.Drawing.Size(100, 20);
-            this.textBox_Setting_Camera_Height.TabIndex = 6;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(9, 219);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(81, 13);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "Path Calibration";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(9, 82);
+            this.label15.Location = new System.Drawing.Point(9, 169);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(35, 13);
+            this.label15.Size = new System.Drawing.Size(26, 13);
             this.label15.TabIndex = 5;
-            this.label15.Text = "Width";
+            this.label15.Text = "ROI";
             // 
-            // textBox_Setting_Camera_Width
+            // textBox_Setting_Camera_ROI
             // 
-            this.textBox_Setting_Camera_Width.Location = new System.Drawing.Point(91, 77);
-            this.textBox_Setting_Camera_Width.Name = "textBox_Setting_Camera_Width";
-            this.textBox_Setting_Camera_Width.Size = new System.Drawing.Size(100, 20);
-            this.textBox_Setting_Camera_Width.TabIndex = 4;
+            this.textBox_Setting_Camera_ROI.Location = new System.Drawing.Point(91, 164);
+            this.textBox_Setting_Camera_ROI.Name = "textBox_Setting_Camera_ROI";
+            this.textBox_Setting_Camera_ROI.Size = new System.Drawing.Size(100, 20);
+            this.textBox_Setting_Camera_ROI.TabIndex = 4;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 52);
+            this.label13.Location = new System.Drawing.Point(9, 139);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(27, 13);
             this.label13.TabIndex = 3;
@@ -666,7 +718,7 @@ namespace Winform_Vision
             // 
             // textBox_Setting_Camera_Fps
             // 
-            this.textBox_Setting_Camera_Fps.Location = new System.Drawing.Point(91, 47);
+            this.textBox_Setting_Camera_Fps.Location = new System.Drawing.Point(91, 134);
             this.textBox_Setting_Camera_Fps.Name = "textBox_Setting_Camera_Fps";
             this.textBox_Setting_Camera_Fps.Size = new System.Drawing.Size(100, 20);
             this.textBox_Setting_Camera_Fps.TabIndex = 2;
@@ -676,9 +728,9 @@ namespace Winform_Vision
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(8, 22);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(29, 13);
+            this.label14.Size = new System.Drawing.Size(35, 13);
             this.label14.TabIndex = 1;
-            this.label14.Text = "URL";
+            this.label14.Text = "Name";
             // 
             // textBox_Setting_Camera_URL
             // 
@@ -841,6 +893,26 @@ namespace Winform_Vision
             this.listBox_Log_System.Size = new System.Drawing.Size(603, 329);
             this.listBox_Log_System.TabIndex = 0;
             // 
+            // tabPage_Help
+            // 
+            this.tabPage_Help.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_Help.Name = "tabPage_Help";
+            this.tabPage_Help.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Help.Size = new System.Drawing.Size(615, 348);
+            this.tabPage_Help.TabIndex = 7;
+            this.tabPage_Help.Text = "Help";
+            this.tabPage_Help.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_About
+            // 
+            this.tabPage_About.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_About.Name = "tabPage_About";
+            this.tabPage_About.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_About.Size = new System.Drawing.Size(615, 348);
+            this.tabPage_About.TabIndex = 8;
+            this.tabPage_About.Text = "About";
+            this.tabPage_About.UseVisualStyleBackColor = true;
+            // 
             // label_Title
             // 
             this.label_Title.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -869,43 +941,6 @@ namespace Winform_Vision
             // 
             this.timer_Datetime.Interval = 1000;
             // 
-            // label_Comport_status
-            // 
-            this.label_Comport_status.Location = new System.Drawing.Point(293, 309);
-            this.label_Comport_status.Name = "label_Comport_status";
-            this.label_Comport_status.Size = new System.Drawing.Size(316, 28);
-            this.label_Comport_status.TabIndex = 7;
-            this.label_Comport_status.Text = "Comport_status";
-            this.label_Comport_status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tabPage_Help
-            // 
-            this.tabPage_Help.Location = new System.Drawing.Point(4, 4);
-            this.tabPage_Help.Name = "tabPage_Help";
-            this.tabPage_Help.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Help.Size = new System.Drawing.Size(615, 348);
-            this.tabPage_Help.TabIndex = 7;
-            this.tabPage_Help.Text = "Help";
-            this.tabPage_Help.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_About
-            // 
-            this.tabPage_About.Location = new System.Drawing.Point(4, 4);
-            this.tabPage_About.Name = "tabPage_About";
-            this.tabPage_About.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_About.Size = new System.Drawing.Size(615, 348);
-            this.tabPage_About.TabIndex = 8;
-            this.tabPage_About.Text = "About";
-            this.tabPage_About.UseVisualStyleBackColor = true;
-            // 
-            // listBox_ListClient
-            // 
-            this.listBox_ListClient.FormattingEnabled = true;
-            this.listBox_ListClient.Location = new System.Drawing.Point(9, 94);
-            this.listBox_ListClient.Name = "listBox_ListClient";
-            this.listBox_ListClient.Size = new System.Drawing.Size(82, 173);
-            this.listBox_ListClient.TabIndex = 8;
-            // 
             // pictureBox_Logo
             // 
             this.pictureBox_Logo.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -917,25 +952,58 @@ namespace Winform_Vision
             this.pictureBox_Logo.TabIndex = 2;
             this.pictureBox_Logo.TabStop = false;
             // 
-            // pictureBox_Display
+            // comboBox_Setting_Camera_Format
             // 
-            this.pictureBox_Display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_Display.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Display.Location = new System.Drawing.Point(6, 6);
-            this.pictureBox_Display.Name = "pictureBox_Display";
-            this.pictureBox_Display.Size = new System.Drawing.Size(467, 336);
-            this.pictureBox_Display.TabIndex = 0;
-            this.pictureBox_Display.TabStop = false;
+            this.comboBox_Setting_Camera_Format.FormattingEnabled = true;
+            this.comboBox_Setting_Camera_Format.Location = new System.Drawing.Point(91, 73);
+            this.comboBox_Setting_Camera_Format.Name = "comboBox_Setting_Camera_Format";
+            this.comboBox_Setting_Camera_Format.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_Setting_Camera_Format.TabIndex = 13;
             // 
-            // pictureBox_Frame_Camera
+            // label18
             // 
-            this.pictureBox_Frame_Camera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Frame_Camera.Location = new System.Drawing.Point(9, 6);
-            this.pictureBox_Frame_Camera.Name = "pictureBox_Frame_Camera";
-            this.pictureBox_Frame_Camera.Size = new System.Drawing.Size(438, 336);
-            this.pictureBox_Frame_Camera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Frame_Camera.TabIndex = 3;
-            this.pictureBox_Frame_Camera.TabStop = false;
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(9, 77);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 12;
+            this.label18.Text = "Format";
+            // 
+            // comboBox_Setting_Camera_Flip
+            // 
+            this.comboBox_Setting_Camera_Flip.FormattingEnabled = true;
+            this.comboBox_Setting_Camera_Flip.Location = new System.Drawing.Point(91, 104);
+            this.comboBox_Setting_Camera_Flip.Name = "comboBox_Setting_Camera_Flip";
+            this.comboBox_Setting_Camera_Flip.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_Setting_Camera_Flip.TabIndex = 15;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(9, 108);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(23, 13);
+            this.label19.TabIndex = 14;
+            this.label19.Text = "Flip";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(11, 191);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(97, 17);
+            this.checkBox1.TabIndex = 16;
+            this.checkBox1.Text = "Use Calibration";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(91, 211);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "button_Setting_Camerea_Path_Calib";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Vision
             // 
@@ -951,6 +1019,7 @@ namespace Winform_Vision
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Vision_FormClosing);
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_Auto.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).EndInit();
             this.tabPage_SerialPort.ResumeLayout(false);
             this.tabPage_SerialPort.PerformLayout();
             this.tabPage_Socket.ResumeLayout(false);
@@ -960,6 +1029,7 @@ namespace Winform_Vision
             this.groupBox_Socket_Server.PerformLayout();
             this.tabPage_Camera.ResumeLayout(false);
             this.tabPage_Camera.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).EndInit();
             this.tabPage_Setting.ResumeLayout(false);
             this.groupBox_Setting_Camera.ResumeLayout(false);
             this.groupBox_Setting_Camera.PerformLayout();
@@ -971,8 +1041,6 @@ namespace Winform_Vision
             this.groupBox_Setting_COM.PerformLayout();
             this.tabPage_Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Display)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Frame_Camera)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1030,11 +1098,8 @@ namespace Winform_Vision
         private System.Windows.Forms.PictureBox pictureBox_Display;
         private System.Windows.Forms.GroupBox groupBox_Setting_Camera;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBox_Setting_Camera_Flip;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox_Setting_Camera_Height;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox textBox_Setting_Camera_Width;
+        private System.Windows.Forms.TextBox textBox_Setting_Camera_ROI;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textBox_Setting_Camera_Fps;
         private System.Windows.Forms.Label label14;
@@ -1060,6 +1125,15 @@ namespace Winform_Vision
         private System.Windows.Forms.TabPage tabPage_Help;
         private System.Windows.Forms.TabPage tabPage_About;
         private System.Windows.Forms.ListBox listBox_ListClient;
+        private System.Windows.Forms.Button button_SaveParam;
+        private System.Windows.Forms.ComboBox comboBox_Setting_Camera_Type;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox comboBox_Setting_Camera_Format;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox comboBox_Setting_Camera_Flip;
+        private System.Windows.Forms.Label label19;
     }
 }
 

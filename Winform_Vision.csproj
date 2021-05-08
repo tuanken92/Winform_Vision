@@ -114,6 +114,9 @@
     <Compile Include="Source\SerialPortManager.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Source\SettingParameter.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Source\ShowDateTime.cs">
       <SubType>Form</SubType>
     </Compile>

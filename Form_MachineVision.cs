@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,46 +29,7 @@ namespace Winform_Vision
 
         TCP_Client tcp_client;
 
-
-        //variable data
-        All_Parameter param;
-
-
-        void test_save_json()
-        {
-            //init list
-            param.list_cam = new List<CameraPrameter>();
-            param.list_comport = new List<ComportParameter>();
-            param.list_socket_client = new List<SocketParameter>();
-
-            for (int i = 1; i < 5; i++)
-            {
-                CameraPrameter cam_param = new CameraPrameter(i);
-                ComportParameter com_param = new ComportParameter(i);
-                SocketParameter socket_param = new SocketParameter(i);
-
-                param.list_cam.Add(cam_param);
-                param.list_comport.Add(com_param);
-                param.list_socket_client.Add(socket_param);
-            }
-
-            //to json
-            JsonSerializer serializer = new JsonSerializer();
-
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-
-            using (StreamWriter sw = new StreamWriter(@"E:\json.txt"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, param);
-            }
-        }
-
-
-        void test_load_json()
-        {
-        }
+        SettingParameter setting_param_manager;
 
         public Vision()
         {
@@ -112,8 +71,11 @@ namespace Winform_Vision
 
             basler_camera = new Basler_Camera();
 
-            //test_save_json();
-            test_load_json();
+            setting_param_manager = new SettingParameter(comboBox_Setting_Camera_Format, comboBox_Setting_Camera_Type, comboBox_Setting_Camera_Flip);
+            setting_param_manager.Inital_Parameter();
+            setting_param_manager.Save_Parameter();
+
+            
             /*Thread print_com = new Thread(print_data_comport);
             print_com.Name = "Print_data_comport";
             print_com.IsBackground = true;

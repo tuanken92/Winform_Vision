@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using OpenCvSharp;
 namespace Winform_Vision.Source
 {
@@ -19,23 +21,32 @@ namespace Winform_Vision.Source
         }
         public enum ETypeCamera
         {
-            Camera_Webcam = 0,
-            Camera_IP,
-            Camera_Basler_Gig,
-            Camera_Basler_USB,
-            Camera_Cognex_Gig,
-            Camera_Cognex_USB,
-            Camera_IMI_Teach,
-            Camera_DMK_Gig
+            Cam_Webcam = 0,
+            Cam_IP,
+            Cam_Basler_Gig,
+            Cam_Basler_USB,
+            Cam_Cognex_Gig,
+            Cam_Cognex_USB,
+            Cam_IMI_Teach,
+            Cam_DMK_Gig
         }
 
+        public enum EFormatCamera
+        {
+            MONO = 0,
+            COLOR
+        }
+
+        
+        private bool _use_calib;
+        private bool _is_support;
         private string _name;
+        private string _calib_file;
+        private uint _fps;
+        private Rect _roi;
         private ETypeCamera _type_camera;
-        private Rect _roi;               //ROI
-        private uint _fps;               //fps
-        private EFlipFrame _flip;        //flip mode
-        private bool _use_calib;  //flag to choose calib or not
-        private string _calib_file;     //path of calibration 
+        private EFlipFrame _flip;
+        private EFormatCamera _format;
 
         //name of camera
         public string Name
@@ -95,6 +106,19 @@ namespace Winform_Vision.Source
             }
         }
 
+
+        //format of camera: is mono or color
+        public EFormatCamera Format
+        {
+            get { return _format; }
+            set
+            {
+                if (value != _format)
+                    _format = value;
+            }
+        }
+
+
         //is enable calib
         public bool Use_calib { get => _use_calib; set => _use_calib = value; }
 
@@ -106,18 +130,29 @@ namespace Winform_Vision.Source
             set
             {
                 //need check file exist
-
-                if (value != _calib_file)
-                    _calib_file = value;
+                if(File.Exists(value))
+                {
+                    if (value != _calib_file)
+                        _calib_file = value;
+                }
+                else
+                {
+                    //MessageBox.Show($"File calibration {value} not exist !");
+                    Console.WriteLine($"File calibration {value} not exist !");
+                }
             }
         }
 
+        public bool Is_support { get => _is_support; set => _is_support = value; }
+        
 
         public void Print_Infor()
         {
             Console.WriteLine("*****************Camera Parameter begin*****************");
             Console.WriteLine($"Name = {Name}");
             Console.WriteLine($"Type = {Type_Camera}");
+            Console.WriteLine($"Format = {Format}");
+            Console.WriteLine($"Is support = {Is_support}");
             Console.WriteLine($"Roi = {Roi.ToString()}");
             Console.WriteLine($"FPS = {Fps}");
             Console.WriteLine($"Flip = {Flip}");
@@ -128,8 +163,9 @@ namespace Winform_Vision.Source
         public CameraPrameter()
         {
             Console.WriteLine("CameraPrameter create");
-            Name = "";
-            Type_Camera = ETypeCamera.Camera_Webcam;
+            Name = "camera_name";
+            Is_support = true;
+            Type_Camera = ETypeCamera.Cam_Webcam;
             Roi = new Rect(0, 0, 1920, 1080);
             Fps = 25;
             Flip = EFlipFrame.Flip_None;
@@ -143,7 +179,7 @@ namespace Winform_Vision.Source
         {
             Console.WriteLine("CameraPrameter create {0}",i);
             Name = $"Camera_{i}";
-            Type_Camera = ETypeCamera.Camera_Webcam;
+            Type_Camera = ETypeCamera.Cam_Webcam;
             Roi = new Rect(0, 0, 1920, 1080);
             Fps = 25;
             Flip = EFlipFrame.Flip_None;
@@ -312,8 +348,25 @@ namespace Winform_Vision.Source
 
 
 
-    public struct All_Parameter
+    public class ParameterManager
     {
+        public ParameterManager()
+        {
+            Console.WriteLine("Parameter Manager create...");
+            list_cam = new List<CameraPrameter>();
+            list_comport = new List<ComportParameter>();
+            list_socket_client = new List<SocketParameter>();
+        }
+
+        ~ParameterManager()
+        {
+            Console.WriteLine("Parameter Manager destroy...");
+            list_cam.Clear();
+            list_comport.Clear();
+            list_socket_client.Clear();
+        }
+
+
         public List<CameraPrameter> list_cam;
         public List<ComportParameter> list_comport;
         public List<SocketParameter> list_socket_client;
@@ -375,6 +428,7 @@ namespace Winform_Vision.Source
     {
         public static UInt16 port = 8888;
         public static string ip = "127.0.0.1";
+        public static string FILE_JSON_PARAMETER = @"C:\Users\Admin\Downloads\tuanken92\param.json";
     }
 
     public class FrameData
