@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCProtocol;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,67 +20,121 @@ namespace Winform_Vision
 
     public partial class Vision : Form
     {
-        ShowDateTime showDateTimeManager;
-        SerialPortManager serialPortManager;
-
-        SocketServer socketServerManager;
-        SocketClient socketClientManager;
-        FrameCapture frameCaptureManager;
-        Basler_Camera basler_camera;
-
-        TCP_Client tcp_client;
-
-        SettingParameter setting_param_manager;
-
+        ShowDateTime showDateTimeManager = null;
+        ParameterManager parameter = null;
+        System.Windows.Forms.Timer ReadDataTimer = null;
         public Vision()
         {
             InitializeComponent();
+            InitVariables();
+            InitGui();
 
-            showDateTimeManager = new ShowDateTime(timer_Datetime, label_DateTime);
-            serialPortManager = new SerialPortManager(button_COM_Connect,
-                                                      button_COM_Send,
-                                                      comboBox_ListComPort,
-                                                      listBox_COM_Log,
-                                                      listBox_COM_Receive,
-                                                      textBox_COM_Data2Send,
-                                                      label_Comport_status);
+        }
 
-            socketServerManager = new SocketServer(textBox_Server_Port,
-                                                   textBox_Server_Ip,
-                                                   textBox_Server_Send,
-                                                   button_Server_Open,
-                                                   button_Server_Send,
-                                                   listBox_Server_Receive);
-
-            /*socketClientManager = new SocketClient(textBox_Client_Ip,
-                                                   textBox_Client_Port,
-                                                   textBox_Client_Send,
-                                                   button_Client_Connect,
-                                                   button_Client_Send,
-                                                   listBox_Client_Receive);*/
-
-            tcp_client = new TCP_Client(textBox_Client_Ip,
-                                                   textBox_Client_Port,
-                                                   textBox_Client_Send,
-                                                   button_Client_Connect,
-                                                   button_Client_Send,
-                                                   listBox_Client_Receive);
+        ~Vision()
+        {
+            Console.WriteLine("Vision destroy.....");
+        }
 
 
-            frameCaptureManager = new FrameCapture(listBox_Camera_Log, pictureBox_Frame_Camera, textBox_Cam_URL, button_Camera_Connect);
-
-
-            basler_camera = new Basler_Camera();
-
-            setting_param_manager = new SettingParameter(comboBox_Setting_Camera_Format, comboBox_Setting_Camera_Type, comboBox_Setting_Camera_Flip);
-            setting_param_manager.Inital_Parameter();
-            setting_param_manager.Save_Parameter();
-
+        void InitVariables()
+        {
             
-            /*Thread print_com = new Thread(print_data_comport);
-            print_com.Name = "Print_data_comport";
-            print_com.IsBackground = true;
-            print_com.Start();*/
+            showDateTimeManager = new ShowDateTime(timer_Datetime, label_DateTime);
+            parameter = new ParameterManager();
+            parameter = SaveLoadParameter.Load_Parameter(parameter, MyDefine.file_config) as ParameterManager;
+
+            parameter.PrintInfo();
+        }
+
+        void InitGUIParameter()
+        {
+            IPPLCTextbox.Text = parameter.plc.Ip;
+            portPLCTextbox.Text = parameter.plc.Port.ToString();
+
+            TriggerPLCTextbox.Text = parameter.plc.TriggerInput.ToString();
+            ResultPLCTextbox.Text = parameter.plc.ResultOutput.ToString();
+            PositionPLCTextbox.Text = parameter.plc.PosCheckInput.ToString();
+
+
+            IPCameraTextbox.Text = parameter.cam.Ip;
+            UserCameraTextbox.Text = parameter.cam.UserName;
+            PassCameraTextbox.Text = parameter.cam.PassWord;
+        }
+
+        void UpdateGUIParameter()
+        {
+            parameter.plc.Ip = IPPLCTextbox.Text;
+            parameter.plc.Port = int.Parse(portPLCTextbox.Text);
+
+            parameter.plc.TriggerInput = int.Parse(TriggerPLCTextbox.Text);
+            parameter.plc.ResultOutput = int.Parse(ResultPLCTextbox.Text);
+            parameter.plc.PosCheckInput = int.Parse(PositionPLCTextbox.Text);
+
+
+            parameter.cam.Ip = IPCameraTextbox.Text;
+            parameter.cam.UserName = UserCameraTextbox.Text;
+            parameter.cam.PassWord = PassCameraTextbox.Text;
+
+            OKLabel.Text = parameter.common.NumOK.ToString();
+            NGLabel.Text = parameter.common.NumNG.ToString();
+
+
+        }
+
+
+        void InitGui()
+        {
+
+
+            //Thread
+            ReadDataTimer = new System.Windows.Forms.Timer();
+            ReadDataTimer.Interval = 100;
+            ReadDataTimer.Tick += ReadDataTimer_Tick;
+
+            //Tab Camera
+            #region tab_camera
+            //Insight display
+            CvsInSightDisplay2.LoadStandardTheme();
+            CvsInSightDisplay2.ShowImage = true;
+            CvsInSightDisplay2.ImageZoomMode = Cognex.InSight.Controls.Display.CvsDisplayZoom.Fit;
+
+            CvsInSightDisplay2.StatusInformationChanged += new System.EventHandler(this.CvsInSightDisplay2_StatusInformationChanged);
+            CvsInSightDisplay2.ConnectedChanged += new System.EventHandler(this.CvsInSightDisplay2_ConnectedChanged);
+            CvsInSightDisplay2.StateChanged += new Cognex.InSight.Controls.Display.CvsDisplayStateChangedEventHandler(this.CvsInSightDisplay2_StateChanged);
+            CvsInSightDisplay2.ConnectCompleted += new Cognex.InSight.CvsConnectCompletedEventHandler(this.CvsInSightDisplay2_ConnectCompleted);
+
+
+            //checkbox
+            chkGrid.CheckedChanged += new System.EventHandler(this.chkGrid_CheckedChanged);
+            chkGraphics.CheckedChanged += new System.EventHandler(this.chkGraphics_CheckedChanged);
+            chkImage.CheckedChanged += new System.EventHandler(this.chkImage_CheckedChanged);
+            chkOnline.CheckedChanged += new System.EventHandler(this.chkOnline_CheckedChanged);
+            chkLive.CheckedChanged += new System.EventHandler(this.chkLive_CheckedChanged);
+
+            optFill.CheckedChanged += new System.EventHandler(this.optFill_CheckedChanged);
+            optFit.CheckedChanged += new System.EventHandler(this.optFit_CheckedChanged);
+            optNone.CheckedChanged += new System.EventHandler(this.optNone_CheckedChanged);
+
+
+            //Scoll
+            hScrollOpacity.Scroll += HScrollOpacity_ValueChanged;
+
+            #endregion
+
+            //TabSetting
+            InitGUIParameter();
+
+            //TabPLC
+
+
+            #region tabAuto
+
+            TriggerCamButton.Click += TriggerCamButton_Click;
+            StartButton.Click += StartButton_Click;
+            StopButton.Click += StopButton_Click;
+            #endregion
+
 
 #if AUTO_RESIZE
             _form_resize = new clsResize(this); //I put this after the initialize event to be sure that all controls are initialized properly
@@ -88,84 +143,446 @@ namespace Winform_Vision
 #endif
         }
 
-        ~Vision()
+        private void StopButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Vision destroy.....");
+            StopPrg();
+            StopButton.Enabled = false;
+            StartButton.Enabled = true;
         }
 
-        static bool isPressBasler = false;
-        private void button_Test_Cam_Basler_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
-            if(!isPressBasler)
+            StartPrg();
+            StartButton.Enabled = false;
+            StopButton.Enabled=true;
+        }
+
+
+
+        void StartPrg()
+        {
+            //Start PLC
+            ConnectPLC();
+
+            //Start Camera
+            ConnectCamIS();
+        }
+
+        void StopPrg()
+        {
+            //Stop PLC
+            DisConnectPLC();
+
+            //Stop Camera
+            DisconnectCamIS();
+        }
+        private void ReadDataTimer_Tick(object sender, EventArgs e)
+        {
+            ReadDataFromPLC();
+        }
+
+
+        void SetResult(bool bResult)
+        {
+            //Color color = new Color(0, 0, 255);
+            if (bResult)
             {
-                Console.WriteLine("Press basler");
-                basler_camera.Enable_run = true;
-                basler_camera.Device_Removal_Handling();
-                isPressBasler = true;
+                parameter.common.NumOK++;
+                ResultLabel.BackColor = Color.Green;
+                ResultLabel.Text = "OK";
             }
             else
             {
-                Console.WriteLine("Stop basler");
-                basler_camera.Enable_run = false;
-                isPressBasler = false;
-
+                parameter.common.NumNG++;
+                ResultLabel.BackColor =Color.DarkRed;
+                ResultLabel.Text = "NG";
             }
+
+            OKLabel.Text = $"OK - {parameter.common.NumOK}";
+            NGLabel.Text = $"NG - {parameter.common.NumNG}";
+
+
         }
-
-
-        void print_data_comport()
+        void ReadDataFromPLC()
         {
-            while(true)
+            
+            //while(true)
             {
-                Thread.Sleep(1000);
-                
-                if(serialPortManager != null && serialPortManager.DataReceived != null)
+                //Thread.Sleep(100);
+                //Complete Job
+                PLCData<bool> plcISComplete = new PLCData<bool>(Mitsubishi.PlcDeviceType.M, 1000, 1);
+                plcISComplete.ReadData();
+                bool isComplete = plcISComplete[0];
+                if(isComplete)
                 {
-                    Console.WriteLine($"data comport = {serialPortManager.DataReceived.ToString()}");
-                    serialPortManager.DataReceived = null;
+                    AddLog("-----------------------", listBoxPLC);
+
+                    //Result
+                    PLCData<Int16> plcJobPass = new PLCData<Int16>(Mitsubishi.PlcDeviceType.D, parameter.plc.ResultOutput, 1);
+                    plcJobPass.ReadData();
+                    AddLog($"Result={plcJobPass[0]}", listBoxPLC);
+                    SetResult(plcJobPass[0]==1?true:false);
+                    
+                    
+
+                    //Lech X
+                    PLCData<float> plcX = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddX, 1);
+                    plcX.ReadData();
+                    AddLog($"X ={plcX[0]}", listBoxPLC);
+
+                    //Lech Y
+                    PLCData<float> plcY = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddY, 1);
+                    plcY.ReadData();
+                    AddLog($"Y={plcY[0]}", listBoxPLC);
+
+                    //angle
+                    PLCData<float> plcAngle = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddAngle, 1);
+                    plcAngle.ReadData();
+                    AddLog($"Angle={plcAngle[0]}", listBoxPLC);
+
+
+                    ReadDataTimer.Stop();
+                    ReadDataTimer.Enabled = false;
                 }
-                
+
             }
         }
 
-        private void tabControl_Main_Click(object sender, EventArgs e)
+
+
+        void trigger()
         {
-            switch (tabControl_Main.SelectedIndex)
+            if (PLCData.PLC == null || !PLCData.PLC.Connected)
+                return;
+
+            PLCData<Int16> int16s = new PLCData<Int16>(Mitsubishi.PlcDeviceType.D, parameter.plc.TriggerInput, 2);
+            int16s[0] = 3;
+            int16s.WriteData();
+            UpdateTestStatus("Triggering...");
+            Thread.Sleep(100);
+
+            int16s[0] = 1;
+            int16s.WriteData();
+            UpdateTestStatus("Trigger done!");
+
+            ReadDataTimer.Enabled = true;
+            ReadDataTimer.Start();
+        }
+
+        #region PLC
+
+        private void TriggerCamButton_Click(object sender, EventArgs e)
+        {
+            trigger();
+        }
+
+
+        private void EnDisButton()
+        {
+            if (PLCData.PLC == null)
+                return;
+            TriggerCamButton.Enabled = PLCData.PLC.Connected;
+        }
+        private void DisConnectPLC()
+        {
+            bool bClosePLC = MyLib.DisconnectPLC();
+            AddLog($"DisConnect = { bClosePLC}", listBoxPLC);
+            EnDisButton();
+        }
+
+        private void ConnectPLC()
+        {
+            MyLib.ConnectToPlc(parameter.plc.Ip, parameter.plc.Port);
+
+            Console.WriteLine($"Connected = { PLCData.PLC.Connected}");
+            AddLog($"Connected = { PLCData.PLC.Connected}", listBoxPLC);
+            EnDisButton();
+        }
+
+        public delegate void DelegateStandardPattern(string data, ListBox listBox);
+        void AddLog(string data, ListBox listBox)
+        {
+            //var date_time = DateTime.Now.ToString("HH:mm:ss");
+            if (this.InvokeRequired)
             {
-                case (int)TabControlIndex.TabControl.Tab_Auto:
-                    Console.WriteLine("Tab Auto");
+                this.Invoke(new DelegateStandardPattern(AddLog), data, listBox);
+                return;
+            }
+            //listBox.Items.Add(String.Format("{0}: {1}", date_time, data));
+            listBox.Items.Add(data);
+
+            if (listBox.Items.Count > 500)
+                listBox.Items.RemoveAt(0);
+
+            if (listBox.Items.Count > 0)
+                listBox.SelectedIndex = listBox.Items.Count - 1;
+        }
+
+        #endregion
+
+        #region Insight Display
+        private void CvsInSightDisplay2_StatusInformationChanged(object sender, System.EventArgs e)
+        {
+            StatusBar1.Panels[1].Text = CvsInSightDisplay2.StatusInformation;
+            Console.WriteLine(CvsInSightDisplay2.StatusInformation);
+        }
+
+        private void CvsInSightDisplay2_ConnectedChanged(object sender, System.EventArgs e)
+        {
+            if (CvsInSightDisplay2.Connected)
+            {
+                //CamISConnectButton.Text = "Dis&connect";
+                UpdateTestStatus("Camera Conneted");
+
+            }
+            else
+            {
+                UpdateTestStatus("Camera Disconnect");
+            }
+        }
+
+        //The state changed within the display control.  Event raised.
+        private void CvsInSightDisplay2_StateChanged(object sender, System.EventArgs e)
+        {
+            UpdateStateMsg();
+        }
+
+        //The display control is now connected.  Event raised.
+        private void CvsInSightDisplay2_ConnectCompleted(object sender, Cognex.InSight.CvsConnectCompletedEventArgs e)
+        {
+            chkImage.Checked = CvsInSightDisplay2.ShowImage;
+
+            if (CvsInSightDisplay2.ImageZoomMode == Cognex.InSight.Controls.Display.CvsDisplayZoom.None)
+                optNone.Checked = true;
+            else if (CvsInSightDisplay2.ImageZoomMode == Cognex.InSight.Controls.Display.CvsDisplayZoom.Fit)
+                optFit.Checked = true;
+            else if (CvsInSightDisplay2.ImageZoomMode == Cognex.InSight.Controls.Display.CvsDisplayZoom.Fill)
+                optFill.Checked = true;
+
+        }
+
+        private void UpdateStateMsg()
+        {
+            switch (CvsInSightDisplay2.State)
+            {
+                case Cognex.InSight.Controls.Display.CvsDisplayState.Connecting:
+                    StatusBar1.Panels[0].Text = "Connecting...";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Manual:
-                    Console.WriteLine("Tab Manul");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.Dialog:
+                    StatusBar1.Panels[0].Text = "Dialog";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_COM:
-                    Console.WriteLine("Tab COM");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.DialogEditingReferenceRanges:
+                    StatusBar1.Panels[0].Text = "Dialog Reference";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Socket:
-                    Console.WriteLine("Tab Socket");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.EditingCellExpression:
+                    StatusBar1.Panels[0].Text = "Editing Expression";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Camera:
-                    Console.WriteLine("Tab Camera");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.EditingCellValue:
+                    StatusBar1.Panels[0].Text = "Editing Value";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Setting:
-                    Console.WriteLine("Tab Setting");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.EditingGraphics:
+                    StatusBar1.Panels[0].Text = "Editing Graphics";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Log:
-                    Console.WriteLine("Tab Log");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.EditingReferenceRanges:
+                    StatusBar1.Panels[0].Text = "Editing Reference";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_Help:
-                    Console.WriteLine("Tab Help");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.Normal:
+                    StatusBar1.Panels[0].Text = "Normal";
                     break;
-                case (int)TabControlIndex.TabControl.Tab_About:
-                    Console.WriteLine("Tab About");
+                case Cognex.InSight.Controls.Display.CvsDisplayState.Waiting:
+                    StatusBar1.Panels[0].Text = "Waiting...";
+                    break;
+                case Cognex.InSight.Controls.Display.CvsDisplayState.Wizard:
+                    StatusBar1.Panels[0].Text = "Wizard";
+                    break;
+                default:
+                    StatusBar1.Panels[0].Text = "Unknown";
                     break;
             }
         }
+
+
+        //Scroll
+        private void HScrollOpacity_ValueChanged(object sender, ScrollEventArgs e)
+        {
+            CvsInSightDisplay2.GridOpacity = (double)e.NewValue / 100;
+            lblGridOpacityValue.Text = System.Convert.ToString(CvsInSightDisplay2.GridOpacity * 100) + '%';
+        }
+
+        //Zoom
+        private void optFill_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (optFill.Checked)
+            {
+                CvsInSightDisplay2.ImageZoomMode = Cognex.InSight.Controls.Display.CvsDisplayZoom.Fill;
+                TestZoomMode();  //Interal Test
+            }
+        }
+
+        private void optFit_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (optFit.Checked)
+            {
+                CvsInSightDisplay2.ImageZoomMode = Cognex.InSight.Controls.Display.CvsDisplayZoom.Fit;
+                TestZoomMode();  //Interal Test
+            }
+        }
+
+        private void optNone_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (optNone.Checked)
+            {
+                CvsInSightDisplay2.ImageZoomMode = Cognex.InSight.Controls.Display.CvsDisplayZoom.None;
+                TestZoomMode();  //Interal Test
+            }
+        }
+
+
+        //internal test code
+        #region AutomatedTestHelper
+
+        private bool ATEST_MODE = true;
+
+
+        private void UpdateTestStatus(string message)
+        {
+            StatusBar1.Panels[0].Text = message;
+        }
+
+        private void chkGrid_CheckedChanged(object sender, EventArgs e)
+        {
+            //CvsInSightDisplay2.ShowGrid = chkGrid.Checked;
+            if (ATEST_MODE)
+                UpdateTestStatus("Show Grid = " + CvsInSightDisplay2.ShowGrid);
+        }
+
+        private void chkGraphics_CheckedChanged(object sender, EventArgs e)
+        {
+            //CvsInSightDisplay2.ShowGraphics = chkGraphics.Checked;
+            if (ATEST_MODE)
+                UpdateTestStatus("Show Graphics = " + CvsInSightDisplay2.ShowGraphics);
+        }
+
+        private void chkOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            //CvsInSightDisplay2.SoftOnline = chkOnline.Checked;
+            if (ATEST_MODE)
+                UpdateTestStatus("Online = " + CvsInSightDisplay2.SoftOnline);
+        }
+        //The "Show Image" checkbox is clicked
+        //Toggles whether or not the background image is shown behind the grid
+        private void chkImage_CheckedChanged(object sender, System.EventArgs e)
+        {
+            CvsInSightDisplay2.ShowImage = chkImage.Checked;
+            if (ATEST_MODE)
+                UpdateTestStatus("Show Image = " + CvsInSightDisplay2.ShowImage);
+        }
+
+        private void TestZoomMode()
+        {
+            
+            if (ATEST_MODE)
+                UpdateTestStatus("Zoom Mode = " + CvsInSightDisplay2.ImageZoomMode);
+        }
+
+        private void chkLive_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (ATEST_MODE)
+                UpdateTestStatus("Live Mode = " + !CvsInSightDisplay2.Edit.LiveAcquire.Activated);
+        }
+
+        #endregion
+        #endregion
+
+        private void ConnectCamIS()
+        {
+            if (!CvsInSightDisplay2.Connected)
+            {
+                CvsInSightDisplay2.Connect(parameter.cam.Ip, parameter.cam.UserName, parameter.cam.PassWord, false);
+                AddLog($"Connected to camera {parameter.cam.Ip}", listBoxPLC);
+            }
+            
+            Refresh();
+        }
+
+        private void DisconnectCamIS()
+        {
+            if (CvsInSightDisplay2.Connected)
+            {
+                CvsInSightDisplay2.Disconnect();
+                AddLog($"Disconnect to camera {parameter.cam.Ip}", listBoxPLC);
+            }
+            Refresh();
+        }
+
+
+        //private void tabControl_Main_Click(object sender, EventArgs e)
+        //{
+        //    switch (tabControl_Main.SelectedIndex)
+        //    {
+        //        case (int)TabControlIndex.TabControl.Tab_Auto:
+        //            Console.WriteLine("Tab Auto");
+        //            break;
+        //        case (int)TabControlIndex.TabControl.Tab_Manual:
+        //            Console.WriteLine("Tab Manul");
+        //            break;
+                
+        //        case (int)TabControlIndex.TabControl.Tab_Camera:
+        //            Console.WriteLine("Tab Camera");
+        //            break;
+        //        case (int)TabControlIndex.TabControl.Tab_Setting:
+        //            Console.WriteLine("Tab Setting");
+        //            break;
+        //        case (int)TabControlIndex.TabControl.Tab_Log:
+        //            Console.WriteLine("Tab Log");
+        //            break;
+        //        case (int)TabControlIndex.TabControl.Tab_About:
+        //            Console.WriteLine("Tab About");
+        //            break;
+        //    }
+        //}
 
         private void Vision_FormClosing(object sender, FormClosingEventArgs e)
         {
             Console.WriteLine("Vision_FormClosing ....");
+
+            //StopPrg
+            StopPrg();
+
+
+            //Save File
+            SaveLoadParameter.Save_Parameter(parameter);
         }
+
+        private void button_SaveParam_Click(object sender, EventArgs e)
+        {
+            UpdateGUIParameter();
+            SaveLoadParameter.Save_Parameter(parameter);
+        }
+
+        private void Vision_Load(object sender, EventArgs e)
+        {
+            hScrollOpacity.Value = System.Convert.ToInt32(CvsInSightDisplay2.GridOpacity * 100.0);
+
+            //Bind the display's editing actions to controls
+            CvsInSightDisplay2.Edit.SoftOnline.Bind(chkOnline); // online mode
+            CvsInSightDisplay2.Edit.LiveAcquire.Bind(chkLive);  // live mode
+            CvsInSightDisplay2.Edit.ShowGraphics.Bind(chkGraphics);
+            CvsInSightDisplay2.Edit.ShowGrid.Bind(chkGrid);
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listBoxPLC.Items.Clear();
+        }
+
+
+
+
+
+
+
 #if AUTO_RESIZE
         clsResize _form_resize;
         private void _Load(object sender, EventArgs e)

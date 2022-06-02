@@ -35,7 +35,7 @@ namespace Winform_Vision.Source
         private void Timer_Datetime_Tick(object sender, EventArgs e)
         {
             //Console.WriteLine("Timer date-time tick.....");
-            this.label_Datetime.Text = DateTime.Now.ToString("ddd MM/dd/yyyy\nhh:mm::ss tt");
+            this.label_Datetime.Text = DateTime.Now.ToString("ddd MM/dd/yyyy\nhh:mm:ss tt");
         }
 
         public void Start_Timer()
