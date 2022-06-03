@@ -55,6 +55,10 @@ namespace Winform_Vision
             TriggerPLCTextbox.Text = parameter.plc.TriggerInput.ToString();
             ResultPLCTextbox.Text = parameter.plc.ResultOutput.ToString();
             PositionPLCTextbox.Text = parameter.plc.PosCheckInput.ToString();
+            
+            XPLCTextbox.Text = parameter.plc.AddX.ToString();
+            YPLCTextbox.Text = parameter.plc.AddY.ToString();
+            AnglePLCTextbox.Text = parameter.plc.AddAngle.ToString();
 
 
             IPCameraTextbox.Text = parameter.cam.Ip;
@@ -70,6 +74,10 @@ namespace Winform_Vision
             parameter.plc.TriggerInput = int.Parse(TriggerPLCTextbox.Text);
             parameter.plc.ResultOutput = int.Parse(ResultPLCTextbox.Text);
             parameter.plc.PosCheckInput = int.Parse(PositionPLCTextbox.Text);
+            
+            parameter.plc.AddX = int.Parse(XPLCTextbox.Text);
+            parameter.plc.AddY= int.Parse(YPLCTextbox.Text);
+            parameter.plc.AddAngle= int.Parse(AnglePLCTextbox.Text);
 
 
             parameter.cam.Ip = IPCameraTextbox.Text;
@@ -203,6 +211,8 @@ namespace Winform_Vision
 
 
         }
+
+        int timeCount = 0;
         void ReadDataFromPLC()
         {
             
@@ -244,6 +254,18 @@ namespace Winform_Vision
                     ReadDataTimer.Stop();
                     ReadDataTimer.Enabled = false;
                 }
+                else
+                {
+                    timeCount++;
+                    if(timeCount > 10)
+                    {
+                        timeCount = 0;
+                        ReadDataTimer.Stop();
+                        ReadDataTimer.Enabled = false;
+                        AddLog("Error: ---------> Check M1000 on PLC", listBoxPLC);
+
+                    }
+                }
 
             }
         }
@@ -265,7 +287,9 @@ namespace Winform_Vision
             int16s.WriteData();
             UpdateTestStatus("Trigger done!");
 
-            ReadDataTimer.Enabled = true;
+            if(!ReadDataTimer.Enabled)
+                ReadDataTimer.Enabled = true;
+            
             ReadDataTimer.Start();
         }
 
@@ -576,6 +600,33 @@ namespace Winform_Vision
         {
             listBoxPLC.Items.Clear();
         }
+
+        private void M100Checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+
+            M100Checkbox.Text = $"M100 = { M100Checkbox.Checked}";
+
+            if (PLCData.PLC == null || !PLCData.PLC.Connected)
+                return;
+
+
+            PLCData<bool> mRegister = new PLCData<bool>(Mitsubishi.PlcDeviceType.M, 100, 1);
+            mRegister[0] = M100Checkbox.Checked;
+            mRegister.WriteData();
+
+        }
+
+        private void ReadM100Button_Click(object sender, EventArgs e)
+        {
+            if (PLCData.PLC == null || !PLCData.PLC.Connected)
+                return;
+
+            PLCData<bool> mRegister = new PLCData<bool>(Mitsubishi.PlcDeviceType.M, 100, 1);
+            mRegister.ReadData();
+            ReadM100Button.Text = $"Read M100 = {mRegister[0]}";// mRegister[0]==true?"1":"0";
+
+        }
+
 
 
 

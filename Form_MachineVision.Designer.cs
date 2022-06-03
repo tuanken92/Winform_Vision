@@ -96,6 +96,14 @@ namespace Winform_Vision
             this.lblState = new System.Windows.Forms.StatusBarPanel();
             this.lblStatus = new System.Windows.Forms.StatusBarPanel();
             this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
+            this.XPLCTextbox = new System.Windows.Forms.TextBox();
+            this.AnglePLCTextbox = new System.Windows.Forms.TextBox();
+            this.YPLCTextbox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.M100Checkbox = new System.Windows.Forms.CheckBox();
+            this.ReadM100Button = new System.Windows.Forms.Button();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
             this.panelISDisplay.SuspendLayout();
@@ -473,7 +481,7 @@ namespace Winform_Vision
             this.groupBox_Setting_Camera.Controls.Add(this.UserCameraTextbox);
             this.groupBox_Setting_Camera.Controls.Add(this.label14);
             this.groupBox_Setting_Camera.Controls.Add(this.IPCameraTextbox);
-            this.groupBox_Setting_Camera.Location = new System.Drawing.Point(9, 90);
+            this.groupBox_Setting_Camera.Location = new System.Drawing.Point(9, 132);
             this.groupBox_Setting_Camera.Name = "groupBox_Setting_Camera";
             this.groupBox_Setting_Camera.Size = new System.Drawing.Size(200, 118);
             this.groupBox_Setting_Camera.TabIndex = 6;
@@ -532,19 +540,27 @@ namespace Winform_Vision
             // 
             // groupBox_Setting_Server
             // 
+            this.groupBox_Setting_Server.Controls.Add(this.ReadM100Button);
+            this.groupBox_Setting_Server.Controls.Add(this.M100Checkbox);
+            this.groupBox_Setting_Server.Controls.Add(this.label12);
             this.groupBox_Setting_Server.Controls.Add(this.label2);
             this.groupBox_Setting_Server.Controls.Add(this.label3);
+            this.groupBox_Setting_Server.Controls.Add(this.label11);
+            this.groupBox_Setting_Server.Controls.Add(this.label8);
             this.groupBox_Setting_Server.Controls.Add(this.label1);
             this.groupBox_Setting_Server.Controls.Add(this.ResultPLCTextbox);
+            this.groupBox_Setting_Server.Controls.Add(this.YPLCTextbox);
             this.groupBox_Setting_Server.Controls.Add(this.PositionPLCTextbox);
+            this.groupBox_Setting_Server.Controls.Add(this.XPLCTextbox);
             this.groupBox_Setting_Server.Controls.Add(this.TriggerPLCTextbox);
             this.groupBox_Setting_Server.Controls.Add(this.label9);
+            this.groupBox_Setting_Server.Controls.Add(this.AnglePLCTextbox);
             this.groupBox_Setting_Server.Controls.Add(this.portPLCTextbox);
             this.groupBox_Setting_Server.Controls.Add(this.label10);
             this.groupBox_Setting_Server.Controls.Add(this.IPPLCTextbox);
             this.groupBox_Setting_Server.Location = new System.Drawing.Point(9, 6);
             this.groupBox_Setting_Server.Name = "groupBox_Setting_Server";
-            this.groupBox_Setting_Server.Size = new System.Drawing.Size(847, 78);
+            this.groupBox_Setting_Server.Size = new System.Drawing.Size(847, 120);
             this.groupBox_Setting_Server.TabIndex = 4;
             this.groupBox_Setting_Server.TabStop = false;
             this.groupBox_Setting_Server.Text = "PLC";
@@ -796,6 +812,75 @@ namespace Winform_Vision
             this.pictureBox_Logo.TabIndex = 2;
             this.pictureBox_Logo.TabStop = false;
             // 
+            // XPLCTextbox
+            // 
+            this.XPLCTextbox.Location = new System.Drawing.Point(684, 16);
+            this.XPLCTextbox.Name = "XPLCTextbox";
+            this.XPLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.XPLCTextbox.TabIndex = 4;
+            // 
+            // AnglePLCTextbox
+            // 
+            this.AnglePLCTextbox.Location = new System.Drawing.Point(492, 48);
+            this.AnglePLCTextbox.Name = "AnglePLCTextbox";
+            this.AnglePLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.AnglePLCTextbox.TabIndex = 4;
+            // 
+            // YPLCTextbox
+            // 
+            this.YPLCTextbox.Location = new System.Drawing.Point(684, 48);
+            this.YPLCTextbox.Name = "YPLCTextbox";
+            this.YPLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.YPLCTextbox.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(638, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "X";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(446, 53);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "Angle";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(638, 51);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "Y";
+            // 
+            // M100Checkbox
+            // 
+            this.M100Checkbox.AutoSize = true;
+            this.M100Checkbox.Location = new System.Drawing.Point(666, 95);
+            this.M100Checkbox.Name = "M100Checkbox";
+            this.M100Checkbox.Size = new System.Drawing.Size(53, 17);
+            this.M100Checkbox.TabIndex = 6;
+            this.M100Checkbox.Text = "M100";
+            this.M100Checkbox.UseVisualStyleBackColor = true;
+            this.M100Checkbox.CheckedChanged += new System.EventHandler(this.M100Checkbox_CheckedChanged);
+            // 
+            // ReadM100Button
+            // 
+            this.ReadM100Button.Location = new System.Drawing.Point(734, 89);
+            this.ReadM100Button.Name = "ReadM100Button";
+            this.ReadM100Button.Size = new System.Drawing.Size(107, 23);
+            this.ReadM100Button.TabIndex = 7;
+            this.ReadM100Button.Text = "Read M100";
+            this.ReadM100Button.UseVisualStyleBackColor = true;
+            this.ReadM100Button.Click += new System.EventHandler(this.ReadM100Button_Click);
+            // 
             // Vision
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -902,6 +987,14 @@ namespace Winform_Vision
         private System.Windows.Forms.Label label_address;
         private System.Windows.Forms.Label lb_title;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox YPLCTextbox;
+        private System.Windows.Forms.TextBox XPLCTextbox;
+        private System.Windows.Forms.TextBox AnglePLCTextbox;
+        private System.Windows.Forms.CheckBox M100Checkbox;
+        private System.Windows.Forms.Button ReadM100Button;
     }
 }
 
