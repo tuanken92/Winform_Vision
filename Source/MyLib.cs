@@ -1,6 +1,7 @@
 ﻿using MCProtocol;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,28 @@ namespace Winform_Vision.Source
 {
     public class MyLib
     {
+        public static bool CreateFolder(string path_folder)
+        {
+            bool result = Directory.Exists(path_folder);
+            if (!result)
+            {
+                Directory.CreateDirectory(path_folder);
+                result = Directory.Exists(path_folder);
+            }
+            return result;
+        }
+
+        public static string GenerateNameImage()
+        {
+            CreateFolder(MyDefine.path_save_images);
+            return String.Format("{0}\\{1}.jpg", MyDefine.path_save_images, DateTime.Now.ToString("yyyyMMdd_hhmmss"));
+        }
+        public static string GenerateNameImage(String path2save, bool isOK=false)
+        {
+            path2save += isOK ? "\\OK" : "\\NG";
+            CreateFolder(path2save);
+            return String.Format("{0}\\{1}.jpg", path2save, DateTime.Now.ToString("yyyyMMdd_hhmmss"));
+        }
 
         public static async void ConnectToPlc(string ip, int port)
         {

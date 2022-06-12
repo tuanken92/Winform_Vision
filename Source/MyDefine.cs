@@ -544,19 +544,36 @@ namespace Winform_Vision.Source
     {
         ulong numOK;
         ulong numNG;
+        String pathImage;
+        String pathText;
+        bool isSaveImage;
+        bool isUsePLC;
+        bool isUseCamera;
 
         public ulong NumOK { get => numOK; set => numOK = value; }
         public ulong NumNG { get => numNG; set => numNG = value; }
+        public string PathImage { get => pathImage; set => pathImage = value; }
+        public string PathText { get => pathText; set => pathText = value; }
+        public bool IsSaveImage { get => isSaveImage; set => isSaveImage = value; }
+        public bool IsUsePLC { get => isUsePLC; set => isUsePLC = value; }
+        public bool IsUseCamera { get => isUseCamera; set => isUseCamera = value; }
 
         public CommonParam()
         {
             NumOK = 0;
             NumNG = 0;
+            pathImage = MyDefine.path_save_images;
+            pathText = MyDefine.path_save_texts;
+            IsSaveImage = false;
+            IsUsePLC = false;
+            IsUseCamera = false;
         }
 
         public void PrintInfo()
         {
-            Console.WriteLine($"Num OK = {NumOK}, NG = {numNG}");
+            Console.WriteLine($"Num OK = {NumOK}, NG = {numNG}, isSaveImage = {IsSaveImage}"); 
+            Console.WriteLine($"IsUsePLC = {IsUsePLC}, IsUseCamera = {IsUseCamera}, isSaveImage = {IsSaveImage}");
+            Console.WriteLine($"Path image = {PathImage}\nPath text = {PathText}");
         }
 
     }
@@ -679,6 +696,7 @@ namespace Winform_Vision.Source
         public static readonly string path_load_img_database = @"C:\Program Files\Cognex\VisionPro\Images";
         public static readonly string path_load_vpp_file = @"C:\Users\Admin\Desktop\Vpp_file";
         public static readonly string path_save_images = String.Format("{0}\\Images", projectDirectory);
+        public static readonly string path_save_texts = String.Format("{0}\\Texts", projectDirectory);
 
         public static readonly string key_thh = @"https://tanhungha.com.vn/";
         public static readonly string hash_key = "";

@@ -51,6 +51,7 @@ namespace Winform_Vision
             this.optFit = new System.Windows.Forms.RadioButton();
             this.optNone = new System.Windows.Forms.RadioButton();
             this.chkOnline = new System.Windows.Forms.CheckBox();
+            this.chkSaveImage = new System.Windows.Forms.CheckBox();
             this.chkImage = new System.Windows.Forms.CheckBox();
             this.chkGraphics = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -63,6 +64,15 @@ namespace Winform_Vision
             this.ResetButton = new System.Windows.Forms.Button();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
             this.button_SaveParam = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.OpenFolderTextButton = new System.Windows.Forms.Button();
+            this.FolderTextFileButton = new System.Windows.Forms.Button();
+            this.OpenFolderImageButton = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.FolderImageFileButton = new System.Windows.Forms.Button();
+            this.PathTxtFileTextbox = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.PathImageFileTextbox = new System.Windows.Forms.TextBox();
             this.groupBox_Setting_Camera = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.PassCameraTextbox = new System.Windows.Forms.TextBox();
@@ -71,13 +81,21 @@ namespace Winform_Vision
             this.label14 = new System.Windows.Forms.Label();
             this.IPCameraTextbox = new System.Windows.Forms.TextBox();
             this.groupBox_Setting_Server = new System.Windows.Forms.GroupBox();
+            this.ReadM100Button = new System.Windows.Forms.Button();
+            this.M100Checkbox = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ResultPLCTextbox = new System.Windows.Forms.TextBox();
+            this.YPLCTextbox = new System.Windows.Forms.TextBox();
             this.PositionPLCTextbox = new System.Windows.Forms.TextBox();
+            this.XPLCTextbox = new System.Windows.Forms.TextBox();
             this.TriggerPLCTextbox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.AnglePLCTextbox = new System.Windows.Forms.TextBox();
             this.portPLCTextbox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.IPPLCTextbox = new System.Windows.Forms.TextBox();
@@ -96,14 +114,9 @@ namespace Winform_Vision
             this.lblState = new System.Windows.Forms.StatusBarPanel();
             this.lblStatus = new System.Windows.Forms.StatusBarPanel();
             this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.XPLCTextbox = new System.Windows.Forms.TextBox();
-            this.AnglePLCTextbox = new System.Windows.Forms.TextBox();
-            this.YPLCTextbox = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.M100Checkbox = new System.Windows.Forms.CheckBox();
-            this.ReadM100Button = new System.Windows.Forms.Button();
+            this.chkUseCam = new System.Windows.Forms.CheckBox();
+            this.chkUsePLC = new System.Windows.Forms.CheckBox();
+            this.folderBrowserDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
             this.panelISDisplay.SuspendLayout();
@@ -114,6 +127,7 @@ namespace Winform_Vision
             this.grpImageZoom.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBox_Setting_Camera.SuspendLayout();
             this.groupBox_Setting_Server.SuspendLayout();
             this.tabPage_About.SuspendLayout();
@@ -227,9 +241,12 @@ namespace Winform_Vision
             this.panel4.Controls.Add(this.Label4);
             this.panel4.Controls.Add(this.chkLive);
             this.panel4.Controls.Add(this.hScrollOpacity);
+            this.panel4.Controls.Add(this.chkUsePLC);
             this.panel4.Controls.Add(this.chkGrid);
             this.panel4.Controls.Add(this.grpImageZoom);
+            this.panel4.Controls.Add(this.chkUseCam);
             this.panel4.Controls.Add(this.chkOnline);
+            this.panel4.Controls.Add(this.chkSaveImage);
             this.panel4.Controls.Add(this.chkImage);
             this.panel4.Controls.Add(this.chkGraphics);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
@@ -240,7 +257,7 @@ namespace Winform_Vision
             // 
             // lblGridOpacityValue
             // 
-            this.lblGridOpacityValue.Location = new System.Drawing.Point(213, 90);
+            this.lblGridOpacityValue.Location = new System.Drawing.Point(302, 96);
             this.lblGridOpacityValue.Name = "lblGridOpacityValue";
             this.lblGridOpacityValue.Size = new System.Drawing.Size(40, 16);
             this.lblGridOpacityValue.TabIndex = 53;
@@ -249,12 +266,12 @@ namespace Winform_Vision
             // 
             // Label4
             // 
-            this.Label4.Location = new System.Drawing.Point(132, 57);
+            this.Label4.Location = new System.Drawing.Point(132, 78);
             this.Label4.Name = "Label4";
             this.Label4.Size = new System.Drawing.Size(75, 16);
             this.Label4.TabIndex = 52;
             this.Label4.Text = "Grid Opacity:";
-            this.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // chkLive
             // 
@@ -266,9 +283,9 @@ namespace Winform_Vision
             // 
             // hScrollOpacity
             // 
-            this.hScrollOpacity.Location = new System.Drawing.Point(17, 90);
+            this.hScrollOpacity.Location = new System.Drawing.Point(135, 96);
             this.hScrollOpacity.Name = "hScrollOpacity";
-            this.hScrollOpacity.Size = new System.Drawing.Size(181, 15);
+            this.hScrollOpacity.Size = new System.Drawing.Size(152, 16);
             this.hScrollOpacity.TabIndex = 51;
             this.hScrollOpacity.Value = 75;
             // 
@@ -290,14 +307,14 @@ namespace Winform_Vision
             this.grpImageZoom.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpImageZoom.Location = new System.Drawing.Point(259, 6);
             this.grpImageZoom.Name = "grpImageZoom";
-            this.grpImageZoom.Size = new System.Drawing.Size(83, 90);
+            this.grpImageZoom.Size = new System.Drawing.Size(83, 86);
             this.grpImageZoom.TabIndex = 50;
             this.grpImageZoom.TabStop = false;
             this.grpImageZoom.Text = "Image Zoom";
             // 
             // optFill
             // 
-            this.optFill.Location = new System.Drawing.Point(13, 67);
+            this.optFill.Location = new System.Drawing.Point(13, 58);
             this.optFill.Name = "optFill";
             this.optFill.Size = new System.Drawing.Size(40, 16);
             this.optFill.TabIndex = 2;
@@ -305,7 +322,7 @@ namespace Winform_Vision
             // 
             // optFit
             // 
-            this.optFit.Location = new System.Drawing.Point(13, 43);
+            this.optFit.Location = new System.Drawing.Point(13, 37);
             this.optFit.Name = "optFit";
             this.optFit.Size = new System.Drawing.Size(40, 16);
             this.optFit.TabIndex = 1;
@@ -313,7 +330,7 @@ namespace Winform_Vision
             // 
             // optNone
             // 
-            this.optNone.Location = new System.Drawing.Point(13, 19);
+            this.optNone.Location = new System.Drawing.Point(13, 16);
             this.optNone.Name = "optNone";
             this.optNone.Size = new System.Drawing.Size(48, 16);
             this.optNone.TabIndex = 0;
@@ -321,17 +338,25 @@ namespace Winform_Vision
             // 
             // chkOnline
             // 
-            this.chkOnline.Location = new System.Drawing.Point(17, 31);
+            this.chkOnline.Location = new System.Drawing.Point(17, 32);
             this.chkOnline.Name = "chkOnline";
             this.chkOnline.Size = new System.Drawing.Size(112, 16);
             this.chkOnline.TabIndex = 46;
             this.chkOnline.Text = "Online";
             // 
+            // chkSaveImage
+            // 
+            this.chkSaveImage.Location = new System.Drawing.Point(135, 57);
+            this.chkSaveImage.Name = "chkSaveImage";
+            this.chkSaveImage.Size = new System.Drawing.Size(112, 20);
+            this.chkSaveImage.TabIndex = 49;
+            this.chkSaveImage.Text = "Save Image";
+            // 
             // chkImage
             // 
             this.chkImage.Location = new System.Drawing.Point(135, 33);
             this.chkImage.Name = "chkImage";
-            this.chkImage.Size = new System.Drawing.Size(112, 16);
+            this.chkImage.Size = new System.Drawing.Size(112, 20);
             this.chkImage.TabIndex = 49;
             this.chkImage.Text = "Show Image";
             // 
@@ -339,7 +364,7 @@ namespace Winform_Vision
             // 
             this.chkGraphics.Location = new System.Drawing.Point(135, 9);
             this.chkGraphics.Name = "chkGraphics";
-            this.chkGraphics.Size = new System.Drawing.Size(112, 16);
+            this.chkGraphics.Size = new System.Drawing.Size(112, 20);
             this.chkGraphics.TabIndex = 48;
             this.chkGraphics.Text = "Show Graphics";
             // 
@@ -451,6 +476,7 @@ namespace Winform_Vision
             // 
             this.tabPage_Setting.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_Setting.Controls.Add(this.button_SaveParam);
+            this.tabPage_Setting.Controls.Add(this.groupBox1);
             this.tabPage_Setting.Controls.Add(this.groupBox_Setting_Camera);
             this.tabPage_Setting.Controls.Add(this.groupBox_Setting_Server);
             this.tabPage_Setting.Location = new System.Drawing.Point(4, 4);
@@ -472,6 +498,97 @@ namespace Winform_Vision
             this.button_SaveParam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button_SaveParam.UseVisualStyleBackColor = true;
             this.button_SaveParam.Click += new System.EventHandler(this.button_SaveParam_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.OpenFolderTextButton);
+            this.groupBox1.Controls.Add(this.FolderTextFileButton);
+            this.groupBox1.Controls.Add(this.OpenFolderImageButton);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.FolderImageFileButton);
+            this.groupBox1.Controls.Add(this.PathTxtFileTextbox);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.PathImageFileTextbox);
+            this.groupBox1.Location = new System.Drawing.Point(224, 132);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(632, 118);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Output";
+            // 
+            // OpenFolderTextButton
+            // 
+            this.OpenFolderTextButton.Location = new System.Drawing.Point(549, 48);
+            this.OpenFolderTextButton.Name = "OpenFolderTextButton";
+            this.OpenFolderTextButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenFolderTextButton.TabIndex = 6;
+            this.OpenFolderTextButton.Text = "Open";
+            this.OpenFolderTextButton.UseVisualStyleBackColor = true;
+            this.OpenFolderTextButton.Click += new System.EventHandler(this.OpenFolderTextButton_Click);
+            // 
+            // FolderTextFileButton
+            // 
+            this.FolderTextFileButton.Location = new System.Drawing.Point(469, 49);
+            this.FolderTextFileButton.Name = "FolderTextFileButton";
+            this.FolderTextFileButton.Size = new System.Drawing.Size(75, 23);
+            this.FolderTextFileButton.TabIndex = 6;
+            this.FolderTextFileButton.Text = "Change";
+            this.FolderTextFileButton.UseVisualStyleBackColor = true;
+            this.FolderTextFileButton.Click += new System.EventHandler(this.FolderTextFileButton_Click);
+            // 
+            // OpenFolderImageButton
+            // 
+            this.OpenFolderImageButton.Location = new System.Drawing.Point(549, 15);
+            this.OpenFolderImageButton.Name = "OpenFolderImageButton";
+            this.OpenFolderImageButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenFolderImageButton.TabIndex = 6;
+            this.OpenFolderImageButton.Text = "Open";
+            this.OpenFolderImageButton.UseVisualStyleBackColor = true;
+            this.OpenFolderImageButton.Click += new System.EventHandler(this.OpenFolderImageButton_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(8, 55);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(47, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "Text File";
+            // 
+            // FolderImageFileButton
+            // 
+            this.FolderImageFileButton.Location = new System.Drawing.Point(469, 16);
+            this.FolderImageFileButton.Name = "FolderImageFileButton";
+            this.FolderImageFileButton.Size = new System.Drawing.Size(75, 23);
+            this.FolderImageFileButton.TabIndex = 6;
+            this.FolderImageFileButton.Text = "Change";
+            this.FolderImageFileButton.UseVisualStyleBackColor = true;
+            this.FolderImageFileButton.Click += new System.EventHandler(this.FolderImageFileButton_Click);
+            // 
+            // PathTxtFileTextbox
+            // 
+            this.PathTxtFileTextbox.Location = new System.Drawing.Point(89, 50);
+            this.PathTxtFileTextbox.Name = "PathTxtFileTextbox";
+            this.PathTxtFileTextbox.Size = new System.Drawing.Size(374, 20);
+            this.PathTxtFileTextbox.TabIndex = 0;
+            this.PathTxtFileTextbox.Text = "...";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(8, 22);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(55, 13);
+            this.label18.TabIndex = 1;
+            this.label18.Text = "Image File";
+            // 
+            // PathImageFileTextbox
+            // 
+            this.PathImageFileTextbox.Location = new System.Drawing.Point(89, 17);
+            this.PathImageFileTextbox.Name = "PathImageFileTextbox";
+            this.PathImageFileTextbox.Size = new System.Drawing.Size(374, 20);
+            this.PathImageFileTextbox.TabIndex = 0;
+            this.PathImageFileTextbox.Text = "...";
             // 
             // groupBox_Setting_Camera
             // 
@@ -565,6 +682,36 @@ namespace Winform_Vision
             this.groupBox_Setting_Server.TabStop = false;
             this.groupBox_Setting_Server.Text = "PLC";
             // 
+            // ReadM100Button
+            // 
+            this.ReadM100Button.Location = new System.Drawing.Point(734, 89);
+            this.ReadM100Button.Name = "ReadM100Button";
+            this.ReadM100Button.Size = new System.Drawing.Size(107, 23);
+            this.ReadM100Button.TabIndex = 7;
+            this.ReadM100Button.Text = "Read M100";
+            this.ReadM100Button.UseVisualStyleBackColor = true;
+            this.ReadM100Button.Click += new System.EventHandler(this.ReadM100Button_Click);
+            // 
+            // M100Checkbox
+            // 
+            this.M100Checkbox.AutoSize = true;
+            this.M100Checkbox.Location = new System.Drawing.Point(666, 95);
+            this.M100Checkbox.Name = "M100Checkbox";
+            this.M100Checkbox.Size = new System.Drawing.Size(53, 17);
+            this.M100Checkbox.TabIndex = 6;
+            this.M100Checkbox.Text = "M100";
+            this.M100Checkbox.UseVisualStyleBackColor = true;
+            this.M100Checkbox.CheckedChanged += new System.EventHandler(this.M100Checkbox_CheckedChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(638, 51);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "Y";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -583,6 +730,24 @@ namespace Winform_Vision
             this.label3.TabIndex = 5;
             this.label3.Text = "Position";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(446, 53);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "Angle";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(638, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "X";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -599,12 +764,26 @@ namespace Winform_Vision
             this.ResultPLCTextbox.Size = new System.Drawing.Size(100, 20);
             this.ResultPLCTextbox.TabIndex = 4;
             // 
+            // YPLCTextbox
+            // 
+            this.YPLCTextbox.Location = new System.Drawing.Point(684, 48);
+            this.YPLCTextbox.Name = "YPLCTextbox";
+            this.YPLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.YPLCTextbox.TabIndex = 4;
+            // 
             // PositionPLCTextbox
             // 
             this.PositionPLCTextbox.Location = new System.Drawing.Point(492, 18);
             this.PositionPLCTextbox.Name = "PositionPLCTextbox";
             this.PositionPLCTextbox.Size = new System.Drawing.Size(100, 20);
             this.PositionPLCTextbox.TabIndex = 4;
+            // 
+            // XPLCTextbox
+            // 
+            this.XPLCTextbox.Location = new System.Drawing.Point(684, 16);
+            this.XPLCTextbox.Name = "XPLCTextbox";
+            this.XPLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.XPLCTextbox.TabIndex = 4;
             // 
             // TriggerPLCTextbox
             // 
@@ -622,6 +801,13 @@ namespace Winform_Vision
             this.label9.Size = new System.Drawing.Size(26, 13);
             this.label9.TabIndex = 3;
             this.label9.Text = "Port";
+            // 
+            // AnglePLCTextbox
+            // 
+            this.AnglePLCTextbox.Location = new System.Drawing.Point(492, 48);
+            this.AnglePLCTextbox.Name = "AnglePLCTextbox";
+            this.AnglePLCTextbox.Size = new System.Drawing.Size(100, 20);
+            this.AnglePLCTextbox.TabIndex = 4;
             // 
             // portPLCTextbox
             // 
@@ -812,74 +998,21 @@ namespace Winform_Vision
             this.pictureBox_Logo.TabIndex = 2;
             this.pictureBox_Logo.TabStop = false;
             // 
-            // XPLCTextbox
+            // chkUseCam
             // 
-            this.XPLCTextbox.Location = new System.Drawing.Point(684, 16);
-            this.XPLCTextbox.Name = "XPLCTextbox";
-            this.XPLCTextbox.Size = new System.Drawing.Size(100, 20);
-            this.XPLCTextbox.TabIndex = 4;
+            this.chkUseCam.Location = new System.Drawing.Point(17, 74);
+            this.chkUseCam.Name = "chkUseCam";
+            this.chkUseCam.Size = new System.Drawing.Size(97, 16);
+            this.chkUseCam.TabIndex = 46;
+            this.chkUseCam.Text = "Use Camera";
             // 
-            // AnglePLCTextbox
+            // chkUsePLC
             // 
-            this.AnglePLCTextbox.Location = new System.Drawing.Point(492, 48);
-            this.AnglePLCTextbox.Name = "AnglePLCTextbox";
-            this.AnglePLCTextbox.Size = new System.Drawing.Size(100, 20);
-            this.AnglePLCTextbox.TabIndex = 4;
-            // 
-            // YPLCTextbox
-            // 
-            this.YPLCTextbox.Location = new System.Drawing.Point(684, 48);
-            this.YPLCTextbox.Name = "YPLCTextbox";
-            this.YPLCTextbox.Size = new System.Drawing.Size(100, 20);
-            this.YPLCTextbox.TabIndex = 4;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(638, 21);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "X";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(446, 53);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(34, 13);
-            this.label11.TabIndex = 5;
-            this.label11.Text = "Angle";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(638, 51);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(14, 13);
-            this.label12.TabIndex = 5;
-            this.label12.Text = "Y";
-            // 
-            // M100Checkbox
-            // 
-            this.M100Checkbox.AutoSize = true;
-            this.M100Checkbox.Location = new System.Drawing.Point(666, 95);
-            this.M100Checkbox.Name = "M100Checkbox";
-            this.M100Checkbox.Size = new System.Drawing.Size(53, 17);
-            this.M100Checkbox.TabIndex = 6;
-            this.M100Checkbox.Text = "M100";
-            this.M100Checkbox.UseVisualStyleBackColor = true;
-            this.M100Checkbox.CheckedChanged += new System.EventHandler(this.M100Checkbox_CheckedChanged);
-            // 
-            // ReadM100Button
-            // 
-            this.ReadM100Button.Location = new System.Drawing.Point(734, 89);
-            this.ReadM100Button.Name = "ReadM100Button";
-            this.ReadM100Button.Size = new System.Drawing.Size(107, 23);
-            this.ReadM100Button.TabIndex = 7;
-            this.ReadM100Button.Text = "Read M100";
-            this.ReadM100Button.UseVisualStyleBackColor = true;
-            this.ReadM100Button.Click += new System.EventHandler(this.ReadM100Button_Click);
+            this.chkUsePLC.Location = new System.Drawing.Point(17, 95);
+            this.chkUsePLC.Name = "chkUsePLC";
+            this.chkUsePLC.Size = new System.Drawing.Size(97, 17);
+            this.chkUsePLC.TabIndex = 45;
+            this.chkUsePLC.Text = "Use PLC";
             // 
             // Vision
             // 
@@ -905,6 +1038,8 @@ namespace Winform_Vision
             this.grpImageZoom.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tabPage_Setting.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox_Setting_Camera.ResumeLayout(false);
             this.groupBox_Setting_Camera.PerformLayout();
             this.groupBox_Setting_Server.ResumeLayout(false);
@@ -995,6 +1130,19 @@ namespace Winform_Vision
         private System.Windows.Forms.TextBox AnglePLCTextbox;
         private System.Windows.Forms.CheckBox M100Checkbox;
         private System.Windows.Forms.Button ReadM100Button;
+        internal System.Windows.Forms.CheckBox chkSaveImage;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button OpenFolderTextButton;
+        private System.Windows.Forms.Button FolderTextFileButton;
+        private System.Windows.Forms.Button OpenFolderImageButton;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button FolderImageFileButton;
+        private System.Windows.Forms.TextBox PathTxtFileTextbox;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox PathImageFileTextbox;
+        internal System.Windows.Forms.CheckBox chkUsePLC;
+        internal System.Windows.Forms.CheckBox chkUseCam;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDlg;
     }
 }
 

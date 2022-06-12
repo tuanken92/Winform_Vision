@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -45,6 +46,18 @@ namespace Winform_Vision
             parameter = SaveLoadParameter.Load_Parameter(parameter, MyDefine.file_config) as ParameterManager;
 
             parameter.PrintInfo();
+
+
+            //create folder
+            try
+            {
+                MyLib.CreateFolder(parameter.common.PathText);
+                MyLib.CreateFolder(parameter.common.PathImage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         void InitGUIParameter()
@@ -64,6 +77,13 @@ namespace Winform_Vision
             IPCameraTextbox.Text = parameter.cam.Ip;
             UserCameraTextbox.Text = parameter.cam.UserName;
             PassCameraTextbox.Text = parameter.cam.PassWord;
+
+            PathImageFileTextbox.Text = parameter.common.PathImage;
+            PathTxtFileTextbox.Text = parameter.common.PathText;
+
+            chkSaveImage.Checked = parameter.common.IsSaveImage;
+            chkUseCam.Checked = parameter.common.IsUseCamera;
+            chkUsePLC.Checked = parameter.common.IsUsePLC;
         }
 
         void UpdateGUIParameter()
@@ -83,6 +103,13 @@ namespace Winform_Vision
             parameter.cam.Ip = IPCameraTextbox.Text;
             parameter.cam.UserName = UserCameraTextbox.Text;
             parameter.cam.PassWord = PassCameraTextbox.Text;
+
+            parameter.common.PathImage = PathImageFileTextbox.Text;
+            parameter.common.PathText = PathTxtFileTextbox.Text;
+
+            parameter.common.IsSaveImage = chkSaveImage.Checked;
+            parameter.common.IsUseCamera= chkUseCam.Checked;
+            parameter.common.IsUsePLC = chkUsePLC.Checked;
 
             OKLabel.Text = parameter.common.NumOK.ToString();
             NGLabel.Text = parameter.common.NumNG.ToString();
@@ -119,6 +146,10 @@ namespace Winform_Vision
             chkImage.CheckedChanged += new System.EventHandler(this.chkImage_CheckedChanged);
             chkOnline.CheckedChanged += new System.EventHandler(this.chkOnline_CheckedChanged);
             chkLive.CheckedChanged += new System.EventHandler(this.chkLive_CheckedChanged);
+            chkSaveImage.CheckedChanged += ChkSaveImage_CheckedChanged;
+            chkUseCam.CheckedChanged += ChkUseCam_CheckedChanged;
+            chkUsePLC.CheckedChanged += ChkUsePLC_CheckedChanged;
+
 
             optFill.CheckedChanged += new System.EventHandler(this.optFill_CheckedChanged);
             optFit.CheckedChanged += new System.EventHandler(this.optFit_CheckedChanged);
@@ -151,6 +182,31 @@ namespace Winform_Vision
 #endif
         }
 
+        private void ChkUsePLC_CheckedChanged(object sender, EventArgs e)
+        {
+            parameter.common.IsUsePLC = chkUsePLC.Checked;
+        }
+
+        private void ChkUseCam_CheckedChanged(object sender, EventArgs e)
+        {
+            parameter.common.IsUseCamera = chkUseCam.Checked;
+        }
+
+        private void ChkSaveImage_CheckedChanged(object sender, EventArgs e)
+        {
+            //parameter.common.IsSaveImage = chkSaveImage.Checked;
+            String file2save = MyLib.GenerateNameImage();
+            //CvsInSightDisplay2.SaveBitmap(file2save);
+            CvsInSightDisplay2.Results.Image.Save(file2save);
+            foreach(var x in CvsInSightDisplay2.Results.Images)
+            {
+                file2save = MyLib.GenerateNameImage();
+                x.Save(file2save);
+            }
+            var status = CvsInSightDisplay2.InSight.Results.StatusLevel;
+            Console.WriteLine(status);
+        }
+
         private void StopButton_Click(object sender, EventArgs e)
         {
             StopPrg();
@@ -170,19 +226,23 @@ namespace Winform_Vision
         void StartPrg()
         {
             //Start PLC
-            ConnectPLC();
+            if(parameter.common.IsUsePLC)
+                ConnectPLC();
 
             //Start Camera
-            ConnectCamIS();
+            if (parameter.common.IsUseCamera)
+                ConnectCamIS();
         }
 
         void StopPrg()
         {
             //Stop PLC
-            DisConnectPLC();
+            if (parameter.common.IsUsePLC)
+                DisConnectPLC();
 
             //Stop Camera
-            DisconnectCamIS();
+            if (parameter.common.IsUseCamera)
+                DisconnectCamIS();
         }
         private void ReadDataTimer_Tick(object sender, EventArgs e)
         {
@@ -209,6 +269,8 @@ namespace Winform_Vision
             OKLabel.Text = $"OK - {parameter.common.NumOK}";
             NGLabel.Text = $"NG - {parameter.common.NumNG}";
 
+            //var status = CvsInSightDisplay2.InSight.Results.StatusLevel;
+            
 
         }
 
@@ -297,14 +359,22 @@ namespace Winform_Vision
 
         private void TriggerCamButton_Click(object sender, EventArgs e)
         {
-            trigger();
+            if(parameter.common.IsUsePLC)
+            {
+                trigger();
+            }
+            else
+            {
+                //CvsInSightDisplay2.InSight.ManualAcquire();
+                CvsInSightDisplay2.Recorder.PlayNext();
+                CvsInSightDisplay2.Refresh();
+            }
         }
 
 
         private void EnDisButton()
         {
-            if (PLCData.PLC == null)
-                return;
+            
             TriggerCamButton.Enabled = PLCData.PLC.Connected;
         }
         private void DisConnectPLC()
@@ -625,6 +695,39 @@ namespace Winform_Vision
             mRegister.ReadData();
             ReadM100Button.Text = $"Read M100 = {mRegister[0]}";// mRegister[0]==true?"1":"0";
 
+        }
+
+        private void FolderImageFileButton_Click(object sender, EventArgs e)
+        {
+
+            folderBrowserDlg.SelectedPath = parameter.common.PathImage;
+            if (folderBrowserDlg.ShowDialog() == DialogResult.OK)
+            {
+                parameter.common.PathImage =  folderBrowserDlg.SelectedPath;
+                PathImageFileTextbox.Text = folderBrowserDlg.SelectedPath;
+            }
+        }
+
+        private void FolderTextFileButton_Click(object sender, EventArgs e)
+        {
+            folderBrowserDlg.SelectedPath = parameter.common.PathText;
+            if (folderBrowserDlg.ShowDialog() == DialogResult.OK)
+            {
+                parameter.common.PathText = folderBrowserDlg.SelectedPath;
+                PathTxtFileTextbox.Text = folderBrowserDlg.SelectedPath;
+            }
+        }
+
+        private void OpenFolderImageButton_Click(object sender, EventArgs e)
+        {
+            MyLib.CreateFolder(parameter.common.PathImage);
+            Process.Start(parameter.common.PathImage);
+        }
+
+        private void OpenFolderTextButton_Click(object sender, EventArgs e)
+        {
+            MyLib.CreateFolder(parameter.common.PathText);
+            Process.Start(parameter.common.PathText);
         }
 
 
