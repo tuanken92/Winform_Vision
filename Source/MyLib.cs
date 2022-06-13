@@ -1,4 +1,5 @@
-﻿using MCProtocol;
+﻿using Cognex.InSight;
+using MCProtocol;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,6 +73,93 @@ namespace Winform_Vision.Source
             }
 
             return !PLCData.PLC.Connected;
+        }
+
+
+        public static bool WriteTextResult(CvsStatusLevel result)
+        {
+            CreateFolder(MyDefine.path_save_texts);
+            //String fileName = String.Format("{0}\\result_{1}.txt", MyDefine.path_save_texts, DateTime.Now.ToString("yyyyMMdd_hhmmss"));
+            String fileName = String.Format("{0}\\result.txt", MyDefine.path_save_texts);
+            String data_result = String.Format("Time: {0}\nResult: {1}", DateTime.Now.ToString("ddd MM/dd/yyyy hh:mm:ss tt"),result);
+            bool bResult = true;
+            
+            try
+            {
+                if (!File.Exists(fileName))
+                {
+                    File.Create(fileName);
+                    using (TextWriter tw = new StreamWriter(fileName))
+                    {
+                        tw.WriteLine(data_result);
+                        tw.Close();
+                    }
+                    
+                }
+                else
+                {
+                    //overwrite
+                    using (var tw = new StreamWriter(fileName, false))
+                    {
+                        tw.WriteLine(data_result);
+                        //tw.Flush();
+                        tw.Close();
+                    }
+                }
+            }  
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                bResult = false;
+            }
+
+
+            
+
+            return bResult;
+        }
+        
+        public static bool WriteTextResult(string data_result)
+        {
+            CreateFolder(MyDefine.path_save_texts);
+            //String fileName = String.Format("{0}\\result_{1}.txt", MyDefine.path_save_texts, DateTime.Now.ToString("yyyyMMdd_hhmmss"));
+            String fileName = String.Format("{0}\\result.txt", MyDefine.path_save_texts);
+            
+            bool bResult = true;
+            
+            try
+            {
+                if (!File.Exists(fileName))
+                {
+                    File.Create(fileName);
+                    using (TextWriter tw = new StreamWriter(fileName))
+                    {
+                        tw.WriteLine(data_result);
+                        tw.Close();
+                    }
+                    
+                }
+                else
+                {
+                    //overwrite
+                    using (var tw = new StreamWriter(fileName, false))
+                    {
+                        tw.WriteLine(data_result);
+                        //tw.Flush();
+                        tw.Close();
+                    }
+                }
+            }  
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                bResult = false;
+            }
+
+
+            
+
+            return bResult;
         }
     }
 

@@ -24,6 +24,8 @@ namespace Winform_Vision
         ShowDateTime showDateTimeManager = null;
         ParameterManager parameter = null;
         System.Windows.Forms.Timer ReadDataTimer = null;
+        
+        ResultReport resultReport;
         public Vision()
         {
             InitializeComponent();
@@ -46,7 +48,7 @@ namespace Winform_Vision
             parameter = SaveLoadParameter.Load_Parameter(parameter, MyDefine.file_config) as ParameterManager;
 
             parameter.PrintInfo();
-
+            resultReport = new ResultReport();
 
             //create folder
             try
@@ -194,17 +196,8 @@ namespace Winform_Vision
 
         private void ChkSaveImage_CheckedChanged(object sender, EventArgs e)
         {
-            //parameter.common.IsSaveImage = chkSaveImage.Checked;
-            String file2save = MyLib.GenerateNameImage();
-            //CvsInSightDisplay2.SaveBitmap(file2save);
-            CvsInSightDisplay2.Results.Image.Save(file2save);
-            foreach(var x in CvsInSightDisplay2.Results.Images)
-            {
-                file2save = MyLib.GenerateNameImage();
-                x.Save(file2save);
-            }
-            var status = CvsInSightDisplay2.InSight.Results.StatusLevel;
-            Console.WriteLine(status);
+            parameter.common.IsSaveImage = chkSaveImage.Checked;
+            
         }
 
         private void StopButton_Click(object sender, EventArgs e)
@@ -288,29 +281,58 @@ namespace Winform_Vision
                 if(isComplete)
                 {
                     AddLog("-----------------------", listBoxPLC);
-
+                    
                     //Result
                     PLCData<Int16> plcJobPass = new PLCData<Int16>(Mitsubishi.PlcDeviceType.D, parameter.plc.ResultOutput, 1);
                     plcJobPass.ReadData();
-                    AddLog($"Result={plcJobPass[0]}", listBoxPLC);
-                    SetResult(plcJobPass[0]==1?true:false);
-                    
-                    
+                    bool bResultFinal = plcJobPass[0] == 1 ? true : false;
+                    AddLog($"Result={bResultFinal}", listBoxPLC);
+                    SetResult(bResultFinal);
 
-                    //Lech X
-                    PLCData<float> plcX = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddX, 1);
-                    plcX.ReadData();
-                    AddLog($"X ={plcX[0]}", listBoxPLC);
 
-                    //Lech Y
-                    PLCData<float> plcY = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddY, 1);
-                    plcY.ReadData();
-                    AddLog($"Y={plcY[0]}", listBoxPLC);
+                    AddLog($"TimeProcess={resultReport.watchProcess.ElapsedMilliseconds} (ms)", listBoxPLC);
+                    SetResult(plcJobPass[0] == 1 ? true : false);
 
-                    //angle
-                    PLCData<float> plcAngle = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddAngle, 1);
-                    plcAngle.ReadData();
-                    AddLog($"Angle={plcAngle[0]}", listBoxPLC);
+                    resultReport.watchProcess.Stop();
+                    resultReport.timeStop = DateTime.Now.ToString("hh:mm:ss");
+                    resultReport.bResult = bResultFinal?"OK":"NG";
+                    if (parameter.common.IsSaveImage)
+                    {
+
+
+                        String file2save = MyLib.GenerateNameImage();
+                        CvsInSightDisplay2.SaveBitmap(file2save);
+
+                        resultReport.pathImage = file2save;
+                        AddLog($"Save Image: {file2save}", listBoxPLC);
+
+                        //var status = CvsInSightDisplay2.InSight.Results.StatusLevel;
+                        //Console.WriteLine(status);
+                        //MyLib.WriteTextResult(status);
+
+                    }
+                    else
+                    {
+                        resultReport.pathImage = "Do not save image";
+                    }
+
+
+                    MyLib.WriteTextResult(resultReport.GetData());
+                    resultReport.ClearData();
+                    ////Lech X
+                    //PLCData<float> plcX = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddX, 1);
+                    //plcX.ReadData();
+                    //AddLog($"X ={plcX[0]}", listBoxPLC);
+
+                    ////Lech Y
+                    //PLCData<float> plcY = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddY, 1);
+                    //plcY.ReadData();
+                    //AddLog($"Y={plcY[0]}", listBoxPLC);
+
+                    ////angle
+                    //PLCData<float> plcAngle = new PLCData<float>(Mitsubishi.PlcDeviceType.D, parameter.plc.AddAngle, 1);
+                    //plcAngle.ReadData();
+                    //AddLog($"Angle={plcAngle[0]}", listBoxPLC);
 
 
                     ReadDataTimer.Stop();
@@ -324,6 +346,7 @@ namespace Winform_Vision
                         timeCount = 0;
                         ReadDataTimer.Stop();
                         ReadDataTimer.Enabled = false;
+                        resultReport.watchProcess.Stop();
                         AddLog("Error: ---------> Check M1000 on PLC", listBoxPLC);
 
                     }
@@ -342,6 +365,9 @@ namespace Winform_Vision
             PLCData<Int16> int16s = new PLCData<Int16>(Mitsubishi.PlcDeviceType.D, parameter.plc.TriggerInput, 2);
             int16s[0] = 3;
             int16s.WriteData();
+            resultReport.watchProcess.Restart();
+            resultReport.watchProcess.Start();
+            resultReport.timeStart = DateTime.Now.ToString("hh:mm:ss");
             UpdateTestStatus("Triggering...");
             Thread.Sleep(100);
 

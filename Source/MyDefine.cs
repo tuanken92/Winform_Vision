@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -660,7 +661,7 @@ namespace Winform_Vision.Source
 
   
 
-            public static uint WM_LBUTTONDOWN = 0x201;
+        public static uint WM_LBUTTONDOWN = 0x201;
         public static uint WM_LBUTTONUP = 0x202;
 
         public static readonly string workingDirectory = Environment.CurrentDirectory;
@@ -716,6 +717,46 @@ namespace Winform_Vision.Source
 
     }
 
+
+    public class ResultReport
+    {
+        public Stopwatch watchProcess;
+        public string bResult;
+        public string pathImage;
+        public string timeStart;
+        public string timeStop;
+        public ResultReport()
+        {
+            watchProcess = new Stopwatch();
+            bResult = "NG";
+            pathImage = "Do not save image";
+            timeStart = "";
+            timeStop = "";
+    }
+
+
+        public string GetData()
+        {
+            //12539303,08201121,14:27:35,14:27:49,14.11,NG
+            //Barcode1, barcode2, timeStart, timeEnd, CycleTime, Result
+
+            string data = String.Format("{0},{1},{2},{3},{4}\n" +
+                                         "image, timeStart, timeEnd, CycleTime(ms), Result",
+                                         pathImage, timeStart, timeStop, watchProcess.Elapsed.TotalMilliseconds.ToString(), bResult);
+
+            return data;
+        }
+
+        public void ClearData()
+        {
+            watchProcess.Restart();
+            bResult = "NG";
+            pathImage = "Do not save image";
+            timeStart = "";
+            timeStop = "";
+        }
+
+    }
     public class FrameData
     {
         public Mat frame;
