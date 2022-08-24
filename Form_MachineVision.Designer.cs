@@ -45,11 +45,13 @@ namespace Winform_Vision
             this.Label4 = new System.Windows.Forms.Label();
             this.chkLive = new System.Windows.Forms.CheckBox();
             this.hScrollOpacity = new System.Windows.Forms.HScrollBar();
+            this.chkUsePLC = new System.Windows.Forms.CheckBox();
             this.chkGrid = new System.Windows.Forms.CheckBox();
             this.grpImageZoom = new System.Windows.Forms.GroupBox();
             this.optFill = new System.Windows.Forms.RadioButton();
             this.optFit = new System.Windows.Forms.RadioButton();
             this.optNone = new System.Windows.Forms.RadioButton();
+            this.chkUseCam = new System.Windows.Forms.CheckBox();
             this.chkOnline = new System.Windows.Forms.CheckBox();
             this.chkSaveImage = new System.Windows.Forms.CheckBox();
             this.chkImage = new System.Windows.Forms.CheckBox();
@@ -114,9 +116,22 @@ namespace Winform_Vision
             this.lblState = new System.Windows.Forms.StatusBarPanel();
             this.lblStatus = new System.Windows.Forms.StatusBarPanel();
             this.pictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.chkUseCam = new System.Windows.Forms.CheckBox();
-            this.chkUsePLC = new System.Windows.Forms.CheckBox();
             this.folderBrowserDlg = new System.Windows.Forms.FolderBrowserDialog();
+            this.tabPageLineScan = new System.Windows.Forms.TabPage();
+            this.Display_Image = new System.Windows.Forms.PictureBox();
+            this.btnMergeImage = new System.Windows.Forms.Button();
+            this.NumberRow_nbup = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.btnClearLog = new System.Windows.Forms.Button();
+            this.btnStartThread = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.Width_nbup = new System.Windows.Forms.NumericUpDown();
+            this.Height_nbup = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.btnStopThread = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Auto.SuspendLayout();
             this.panelISDisplay.SuspendLayout();
@@ -136,6 +151,13 @@ namespace Winform_Vision
             ((System.ComponentModel.ISupportInitialize)(this.lblState)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).BeginInit();
+            this.tabPageLineScan.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Display_Image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberRow_nbup)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Width_nbup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Height_nbup)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -147,6 +169,7 @@ namespace Winform_Vision
             this.tabControl_Main.Controls.Add(this.tabPage_Auto);
             this.tabControl_Main.Controls.Add(this.tabPage_Setting);
             this.tabControl_Main.Controls.Add(this.tabPage_About);
+            this.tabControl_Main.Controls.Add(this.tabPageLineScan);
             this.tabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl_Main.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl_Main.ItemSize = new System.Drawing.Size(65, 50);
@@ -289,6 +312,14 @@ namespace Winform_Vision
             this.hScrollOpacity.TabIndex = 51;
             this.hScrollOpacity.Value = 75;
             // 
+            // chkUsePLC
+            // 
+            this.chkUsePLC.Location = new System.Drawing.Point(17, 95);
+            this.chkUsePLC.Name = "chkUsePLC";
+            this.chkUsePLC.Size = new System.Drawing.Size(97, 17);
+            this.chkUsePLC.TabIndex = 45;
+            this.chkUsePLC.Text = "Use PLC";
+            // 
             // chkGrid
             // 
             this.chkGrid.Location = new System.Drawing.Point(17, 53);
@@ -335,6 +366,14 @@ namespace Winform_Vision
             this.optNone.Size = new System.Drawing.Size(48, 16);
             this.optNone.TabIndex = 0;
             this.optNone.Text = "None";
+            // 
+            // chkUseCam
+            // 
+            this.chkUseCam.Location = new System.Drawing.Point(17, 74);
+            this.chkUseCam.Name = "chkUseCam";
+            this.chkUseCam.Size = new System.Drawing.Size(97, 16);
+            this.chkUseCam.TabIndex = 46;
+            this.chkUseCam.Text = "Use Camera";
             // 
             // chkOnline
             // 
@@ -998,21 +1037,182 @@ namespace Winform_Vision
             this.pictureBox_Logo.TabIndex = 2;
             this.pictureBox_Logo.TabStop = false;
             // 
-            // chkUseCam
+            // tabPageLineScan
             // 
-            this.chkUseCam.Location = new System.Drawing.Point(17, 74);
-            this.chkUseCam.Name = "chkUseCam";
-            this.chkUseCam.Size = new System.Drawing.Size(97, 16);
-            this.chkUseCam.TabIndex = 46;
-            this.chkUseCam.Text = "Use Camera";
+            this.tabPageLineScan.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageLineScan.Controls.Add(this.groupBox3);
+            this.tabPageLineScan.Controls.Add(this.groupBox2);
+            this.tabPageLineScan.Controls.Add(this.listBox1);
+            this.tabPageLineScan.Controls.Add(this.btnClearLog);
+            this.tabPageLineScan.Controls.Add(this.Display_Image);
+            this.tabPageLineScan.Location = new System.Drawing.Point(4, 4);
+            this.tabPageLineScan.Name = "tabPageLineScan";
+            this.tabPageLineScan.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLineScan.Size = new System.Drawing.Size(862, 515);
+            this.tabPageLineScan.TabIndex = 9;
+            this.tabPageLineScan.Text = "LineScan";
             // 
-            // chkUsePLC
+            // Display_Image
             // 
-            this.chkUsePLC.Location = new System.Drawing.Point(17, 95);
-            this.chkUsePLC.Name = "chkUsePLC";
-            this.chkUsePLC.Size = new System.Drawing.Size(97, 17);
-            this.chkUsePLC.TabIndex = 45;
-            this.chkUsePLC.Text = "Use PLC";
+            this.Display_Image.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Display_Image.Location = new System.Drawing.Point(6, 6);
+            this.Display_Image.Name = "Display_Image";
+            this.Display_Image.Size = new System.Drawing.Size(490, 394);
+            this.Display_Image.TabIndex = 0;
+            this.Display_Image.TabStop = false;
+            // 
+            // btnMergeImage
+            // 
+            this.btnMergeImage.Location = new System.Drawing.Point(183, 13);
+            this.btnMergeImage.Name = "btnMergeImage";
+            this.btnMergeImage.Size = new System.Drawing.Size(112, 34);
+            this.btnMergeImage.TabIndex = 1;
+            this.btnMergeImage.Text = "Merge Image";
+            this.btnMergeImage.UseVisualStyleBackColor = true;
+            // 
+            // NumberRow_nbup
+            // 
+            this.NumberRow_nbup.Location = new System.Drawing.Point(81, 22);
+            this.NumberRow_nbup.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.NumberRow_nbup.Name = "NumberRow_nbup";
+            this.NumberRow_nbup.Size = new System.Drawing.Size(76, 20);
+            this.NumberRow_nbup.TabIndex = 2;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(11, 24);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(64, 13);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Number row";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(502, 6);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(354, 251);
+            this.listBox1.TabIndex = 4;
+            // 
+            // btnClearLog
+            // 
+            this.btnClearLog.Location = new System.Drawing.Point(797, 263);
+            this.btnClearLog.Name = "btnClearLog";
+            this.btnClearLog.Size = new System.Drawing.Size(59, 34);
+            this.btnClearLog.TabIndex = 1;
+            this.btnClearLog.Text = "Clear";
+            this.btnClearLog.UseVisualStyleBackColor = true;
+            // 
+            // btnStartThread
+            // 
+            this.btnStartThread.Location = new System.Drawing.Point(204, 26);
+            this.btnStartThread.Name = "btnStartThread";
+            this.btnStartThread.Size = new System.Drawing.Size(57, 34);
+            this.btnStartThread.TabIndex = 1;
+            this.btnStartThread.Text = "Start";
+            this.btnStartThread.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.label19);
+            this.groupBox2.Controls.Add(this.btnStopThread);
+            this.groupBox2.Controls.Add(this.btnStartThread);
+            this.groupBox2.Controls.Add(this.Height_nbup);
+            this.groupBox2.Controls.Add(this.Width_nbup);
+            this.groupBox2.Location = new System.Drawing.Point(506, 316);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(350, 84);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Row Data";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(14, 21);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(35, 13);
+            this.label19.TabIndex = 2;
+            this.label19.Text = "Width";
+            // 
+            // Width_nbup
+            // 
+            this.Width_nbup.Location = new System.Drawing.Point(66, 19);
+            this.Width_nbup.Maximum = new decimal(new int[] {
+            4096,
+            0,
+            0,
+            0});
+            this.Width_nbup.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Width_nbup.Name = "Width_nbup";
+            this.Width_nbup.Size = new System.Drawing.Size(76, 20);
+            this.Width_nbup.TabIndex = 2;
+            this.Width_nbup.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // Height_nbup
+            // 
+            this.Height_nbup.Location = new System.Drawing.Point(66, 45);
+            this.Height_nbup.Maximum = new decimal(new int[] {
+            4096,
+            0,
+            0,
+            0});
+            this.Height_nbup.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Height_nbup.Name = "Height_nbup";
+            this.Height_nbup.Size = new System.Drawing.Size(76, 20);
+            this.Height_nbup.TabIndex = 2;
+            this.Height_nbup.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 47);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(38, 13);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "Height";
+            // 
+            // btnStopThread
+            // 
+            this.btnStopThread.Location = new System.Drawing.Point(276, 26);
+            this.btnStopThread.Name = "btnStopThread";
+            this.btnStopThread.Size = new System.Drawing.Size(57, 34);
+            this.btnStopThread.TabIndex = 1;
+            this.btnStopThread.Text = "Stop";
+            this.btnStopThread.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label17);
+            this.groupBox3.Controls.Add(this.NumberRow_nbup);
+            this.groupBox3.Controls.Add(this.btnMergeImage);
+            this.groupBox3.Location = new System.Drawing.Point(90, 406);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(306, 54);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
             // 
             // Vision
             // 
@@ -1051,6 +1251,15 @@ namespace Winform_Vision
             ((System.ComponentModel.ISupportInitialize)(this.lblState)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Logo)).EndInit();
+            this.tabPageLineScan.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Display_Image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberRow_nbup)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Width_nbup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Height_nbup)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1143,6 +1352,21 @@ namespace Winform_Vision
         internal System.Windows.Forms.CheckBox chkUsePLC;
         internal System.Windows.Forms.CheckBox chkUseCam;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDlg;
+        private System.Windows.Forms.TabPage tabPageLineScan;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button btnStopThread;
+        private System.Windows.Forms.Button btnStartThread;
+        private System.Windows.Forms.NumericUpDown Height_nbup;
+        private System.Windows.Forms.NumericUpDown Width_nbup;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown NumberRow_nbup;
+        private System.Windows.Forms.Button btnClearLog;
+        private System.Windows.Forms.Button btnMergeImage;
+        private System.Windows.Forms.PictureBox Display_Image;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }
 

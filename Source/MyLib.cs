@@ -4,11 +4,104 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Winform_Vision.Source
 {
+
+    public sealed class AsyncLock
+    {
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+        public async Task<IDisposable> LockAsync()
+        {
+            await _semaphore.WaitAsync();
+            return new Handler(_semaphore);
+        }
+
+        private sealed class Handler : IDisposable
+        {
+            private readonly SemaphoreSlim _semaphore;
+            private bool _disposed = false;
+
+            public Handler(SemaphoreSlim semaphore)
+            {
+                _semaphore = semaphore;
+            }
+
+            public void Dispose()
+            {
+                if (!_disposed)
+                {
+                    _semaphore.Release();
+                    _disposed = true;
+                }
+            }
+        }
+    }
+
+    public class TaskLoop
+    {
+
+        #region Implementation of INotifyPropertyChanged
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //private void OnPropertyChanged(string propertyName)
+        //{
+        //    if (this.PropertyChanged != null)
+        //        this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //}
+
+        #endregion
+
+        private CancellationTokenSource _cancelSource;
+        private readonly AsyncLock _lock = new AsyncLock();
+
+        public CancellationTokenSource CancelSource { get => _cancelSource; set => _cancelSource = value; }
+
+        public TaskLoop()
+        {
+            CancelSource = new CancellationTokenSource();
+        }
+
+        ~TaskLoop()
+        {
+            CancelSource?.Dispose();
+        }
+
+
+        public void ResetToken()
+        {
+            CancelSource?.Dispose();
+            CancelSource = new CancellationTokenSource();
+        }
+
+        public void StopLoop()
+        {
+            CancelSource?.Cancel();
+        }
+
+
+
+        public async Task RunLoop(int interval, Action action)
+        {
+            if (action == null)
+                return;
+
+            using (await _lock.LockAsync())
+            {
+                while (!CancelSource.IsCancellationRequested)
+                {
+                    await Task.Run(() => action());
+                    await Task.Delay(interval);
+                }
+            }
+        }
+
+    }
+
     public class MyLib
     {
         public static bool CreateFolder(string path_folder)
